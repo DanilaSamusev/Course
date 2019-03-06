@@ -7,8 +7,22 @@
 
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.App"/>
-        <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All"/>
+        <PackageReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <Folder Include="Controllers" />
+      <Folder Include="Models" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Shared\Error.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_CookieConsentPartial.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
     </ItemGroup>
 
 </Project>
