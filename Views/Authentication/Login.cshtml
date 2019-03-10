@@ -1,0 +1,28 @@
+@using AccountingSystem.Models;
+@model LoginModel;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Authentication</title>
+    <link href="css/login.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+
+<div>
+    <h1>Вход на сайт</h1>
+</div>
+
+<div> </div>
+
+<div>
+    <form method="post" action="~/Authentication/Login">       
+        <input placeholder="login" name="login" />
+        <input class="input2" placeholder="password" name="password"/>
+        <button type="submit">Войти</button>
+    </form>
+</div>
+
+</body>
+</html>
