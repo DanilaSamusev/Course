@@ -1,0 +1,18 @@
+body {
+    background-color: #e5e5e5;
+    font-style: oblique;
+}
+
+button {
+    color: #fff;
+    padding: 10px 20px;
+    margin-left: 174px;
+    margin-top: 10px;
+    border: 1px solid rgb(8, 4, 0);
+    border-radius: 30px;
+    background: rgb(0, 0, 0) linear-gradient(rgb(43, 43, 43) 20%, rgb(34, 34, 34));
+    box-shadow: 0 2px rgb(41, 41, 41),
+    0 1px 6px rgba(0, 0, 0, 0.4),
+    inset 0 1px rgba(255, 255, 255, .3),
+    inset 0 0 3px rgba(255, 255, 255, .5);
+}
