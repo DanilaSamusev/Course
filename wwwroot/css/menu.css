@@ -1,0 +1,22 @@
+h1 {
+    margin-top: 50px;
+    margin-left: 810px;
+}
+
+img {
+    margin-left: 450px;
+    margin-top: 220px;
+    width: 200px;
+}
+
+form {
+    display: inline;
+}
+
+button {
+    margin-left: 500px;
+}
+
+.users {
+    margin-left: 70px;
+}
