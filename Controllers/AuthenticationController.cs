@@ -29,7 +29,7 @@ namespace AccountingSystem.Controllers
         {
             string login = model.Login;
 
-            User user = _userRepository.Get(login);
+            User user = _userRepository.GetOne(login);
             HttpContext.Session.Set("user", user);
 
             return RedirectToAction("Menu","Menu");

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using AccountingSystem.Models;
 using Dapper;
@@ -15,7 +16,7 @@ namespace AccountingSystem.Repository
             ConnectionString = connectionString;
         }
 
-        public User Get(string login)
+        public User GetOne(string login)
         {
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
@@ -25,6 +26,18 @@ namespace AccountingSystem.Repository
 
                 return user;
             }            
+        }
+
+        public List<User> GetAll()
+        {
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                string strQuery = "Select * from users";
+
+                List<User> users = connection.Query<User>(strQuery).ToList();
+
+                return users;
+            }
         }
         
     }

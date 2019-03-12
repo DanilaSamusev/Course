@@ -1,0 +1,43 @@
+@using AccountingSystem.Models
+@model List<User>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Users</title>
+    <link href="~/css/common.css" type="text/css" rel="stylesheet"/>
+    <link href="~/css/users.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+
+<div>
+    <table>
+        <tr>
+            <th>Login</th>
+            <th>Password</th>
+            <th>Role</th>
+        </tr>
+        @foreach (User user in Model)
+        {
+            <tr>
+                <td>@user.Login</td>
+                <td>@user.Password</td>
+                <td>@user.Role</td>
+                <td>
+                    <form>
+                    <button>Редактировать</button>
+                    </form>
+                </td>
+                <td>
+                    <form>
+                        <button>Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+</body>
+</html>
