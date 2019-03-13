@@ -26,12 +26,12 @@
                 <td>@user.Role</td>
                 <td>
                     <form>
-                    <button>Редактировать</button>
+                    <button name="userId", value=@user.Id >Редактировать</button>
                     </form>
                 </td>
                 <td>
-                    <form>
-                        <button>Удалить</button>
+                    <form action="~/Users/DeleteUser">
+                        <button name="userId", value=@user.Id >Удалить</button>
                     </form>
                 </td>
             </tr>

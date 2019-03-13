@@ -39,6 +39,16 @@ namespace AccountingSystem.Repository
                 return users;
             }
         }
+
+        public void Delete(long userId)
+        {
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                string strQuery = "Delete from users where id = @userId";
+
+                connection.Query(strQuery, new {userId});                
+            }
+        }
         
     }
 }
