@@ -44,5 +44,24 @@ namespace AccountingSystem.Controllers
             
             return RedirectToAction("Users", "Users");
         }
+
+        public IActionResult ModifyUser(User user)
+        {
+            List<User> users = HttpContext.Session.Get<List<User>>("users");
+            
+            if (users == null)
+            {
+                users = _userRepository.GetAll();
+            }
+
+            User oldUser = users.FirstOrDefault(u => u.Id == user.Id);
+
+            users.Remove(oldUser);
+            users.Add(user);
+            _userRepository.Modify(user);
+            HttpContext.Session.Set("users", users);
+            
+            return RedirectToAction("Users", "Users");
+        }
     }
 }

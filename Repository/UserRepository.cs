@@ -49,6 +49,21 @@ namespace AccountingSystem.Repository
                 connection.Query(strQuery, new {userId});                
             }
         }
+
+        public void Modify(User user)
+        {
+            long id = user.Id;
+            string login = user.Login;
+            int password = user.Password;
+            string role = user.Role;
+            
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                string strQuery = "Update users set login = @login, password = @password, role = @role where id = @id";
+
+                connection.Query(strQuery, new {id, login, password, role});
+            }
+        }
         
     }
 }

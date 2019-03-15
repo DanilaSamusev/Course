@@ -4,7 +4,7 @@ namespace AccountingSystem.Models
     {
         public long Id { get; set; }
         public string Login { get; set; }
-        public string Password { get; set; }
+        public int Password { get; set; }
         public string Role { get; set; }
     }
 }
