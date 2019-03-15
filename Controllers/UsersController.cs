@@ -37,9 +37,9 @@ namespace AccountingSystem.Controllers
                 users = _userRepository.GetAll();
             }
             
+            _userRepository.Delete(userId);
             User user = users.FirstOrDefault(u => u.Id == userId);
             users.Remove(user);
-            _userRepository.Delete(userId);
             HttpContext.Session.Set("users", users);
             
             return RedirectToAction("Users", "Users");
@@ -56,9 +56,9 @@ namespace AccountingSystem.Controllers
 
             User oldUser = users.FirstOrDefault(u => u.Id == user.Id);
 
+            _userRepository.Modify(user);
             users.Remove(oldUser);
             users.Add(user);
-            _userRepository.Modify(user);
             HttpContext.Session.Set("users", users);
             
             return RedirectToAction("Users", "Users");

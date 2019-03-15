@@ -1,20 +1,41 @@
 #modifyWindow, #addWindow{
-    width: 400px;
-    height: 400px;
-    margin: 50px auto;
+    width: 300px;
+    height: 350px;
+    margin-left: 700px;
     display: none;
     background: #fff;
-    z-index: 200;
     position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px;
 }
 
 .close{
-    margin-left: 364px;
+    margin-left: 260px;
     margin-top: 4px;
     cursor: pointer;
+}
+
+input {
+    font-style: oblique;
+    background-color: #e5e5e5;
+    width: 250px;
+    height: 25px;
+    margin-left: 22px;
+}
+
+.passwordInput {
+    margin-top: 15px;
+}
+
+.roleInput {
+    margin-top: 15px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.accept {
+    margin-top: 15px;
+    margin-left: 110px;
 }
