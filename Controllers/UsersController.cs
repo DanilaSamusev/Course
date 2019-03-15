@@ -63,5 +63,21 @@ namespace AccountingSystem.Controllers
             
             return RedirectToAction("Users", "Users");
         }
+
+        public IActionResult AddUser(User user)
+        {
+            List<User> users = HttpContext.Session.Get<List<User>>("users");
+            
+            if (users == null)
+            {
+                users = _userRepository.GetAll();
+            }
+            
+            _userRepository.Add(user);            
+            users.Add(user);
+            HttpContext.Session.Set("users", users);
+                        
+            return RedirectToAction("Users", "Users");
+        }
     }
 }

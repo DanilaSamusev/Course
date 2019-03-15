@@ -12,8 +12,7 @@
 </head>
 <body>
 
-<div id="window">
-
+<div id="modifyWindow">
     <img class="close" onclick="modifyUser('none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
     <h1>Введите новые данные</h1>
     
@@ -23,10 +22,20 @@
         <input placeholder="password" name="Password"/>
         <input placeholder="role" name="Role"/>
         <button type="submit">Принять</button>
-    </form>
-    
+    </form>   
 </div>
 
+<div id="addWindow">
+    <img class="close" onclick="addUser('none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
+    <h1>Введите данные</h1>
+    
+    <form action="~/Users/AddUser">        
+        <input placeholder="login" name="Login"/>
+        <input placeholder="password" name="Password"/>
+        <input placeholder="role" name="Role"/>
+        <button type="submit">Принять</button>
+    </form>   
+</div>
 
 <div>
     <table>
@@ -52,6 +61,10 @@
             </tr>
         }
     </table>
+</div>
+
+<div>  
+     <button onclick="addUser('block')">Добавить пользователя</button>   
 </div>
 
 </body>

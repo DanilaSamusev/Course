@@ -64,6 +64,21 @@ namespace AccountingSystem.Repository
                 connection.Query(strQuery, new {id, login, password, role});
             }
         }
+
+        public void Add(User user)
+        {           
+            string login = user.Login;
+            int password = user.Password;
+            string role = user.Role;
+
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                string strQuery = "Insert into users (login, password, role)" +
+                                  "values(@login, @password, @role)";
+
+                connection.Query(strQuery, new {login, password, role});
+            }
+        }
         
     }
 }
