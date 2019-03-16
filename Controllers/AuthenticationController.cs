@@ -13,27 +13,39 @@ namespace AccountingSystem.Controllers
         {
             _userRepository = userRepository;
         }
-        
+
         [HttpGet]
         public IActionResult Login()
         {
             LoginModel defaultModel = new LoginModel();
             defaultModel.LoginError = "";
             defaultModel.PasswordError = "";
-            
-            return View(defaultModel);           
+            defaultModel.AuthenticationError = "";
+
+            return View(defaultModel);
         }
 
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
-            string login = model.Login;
+            if (model.IsValid())
+            {
+                string login = model.Login;
+                int password = model.Password;
 
-            User user = _userRepository.GetOne(login);
-            HttpContext.Session.Set("user", user);
+                User user = _userRepository.GetOne(login, password);
 
-            return RedirectToAction("Menu","Menu");
-            
+                if (user == null)
+                {
+                    model.AuthenticationError = "Пользователь не найден";
+                    return View(model);
+                }
+
+                HttpContext.Session.Set("user", user);
+
+                return RedirectToAction("Menu", "Menu");
+            }
+
             return View(model);
         }
     }

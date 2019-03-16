@@ -16,13 +16,13 @@ namespace AccountingSystem.Repository
             ConnectionString = connectionString;
         }
 
-        public User GetOne(string login)
+        public User GetOne(string login, int password)
         {
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
-                string strQuery = "Select * from users where login = @login";
+                string strQuery = "Select * from users where login = @login and password = @password";
 
-                User user = connection.Query<User>(strQuery, new {login}).FirstOrDefault();
+                User user = connection.Query<User>(strQuery, new {login, password}).FirstOrDefault();
 
                 return user;
             }            

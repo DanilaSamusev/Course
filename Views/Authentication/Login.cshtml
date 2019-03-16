@@ -16,9 +16,12 @@
 </div>
 
 <div>
-    <form method="post" action="~/Authentication/Login">       
+    <form method="post" action="~/Authentication/Login">   
+        <p>@Model.AuthenticationError</p>
         <input placeholder="login" name="login" />
+        <p>@Model.LoginError</p>
         <input class="input2" placeholder="password" type="password" name="password"/>
+        <p>@Model.PasswordError</p>
         <button type="submit">Войти</button>
     </form>
 </div>
