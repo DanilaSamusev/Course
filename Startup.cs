@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using AccountingSystem.Repository;
+using AccountingSystem.Services;
 using Dapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +38,7 @@ namespace AccountingSystem
             services.AddSession();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSingleton<UserRepository>(ur => new UserRepository(connectionString));
+            services.AddSingleton<Validator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
