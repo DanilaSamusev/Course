@@ -17,11 +17,6 @@
 
 
     <ItemGroup>
-      <Folder Include="Services" />
-    </ItemGroup>
-
-
-    <ItemGroup>
       <_ContentIncludedByDefault Remove="Views\Shared\Error.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Shared\_CookieConsentPartial.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
