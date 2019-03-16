@@ -1,6 +1,10 @@
 @using AccountingSystem.Models
+@using Microsoft.AspNetCore.Http
+@using AccountingSystem.Extensions;
 @model List<User>
-
+@{
+    string error = Context.Session.Get<string>("resultError");
+}
 <!DOCTYPE html>
 
 <html>
@@ -13,29 +17,49 @@
 </head>
 <body>
 
+@if(error != null){
+<div><p>@error</p></div>
+}
+
 <div id="modifyWindow">
-    <img class="close" onclick="modifyUser('none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
+    <img class="close" onclick="modifyUser('none')" src="~/images/close.png">
     <h1>Введите новые данные</h1>
-    
+
     <form action="~/Users/ModifyUser">
-        <input type="hidden" id="id" name="Id" />
-        <input placeholder="login" name="Login"/><br/>
-        <input class="passwordInput" placeholder="password" name="Password"/><br/>
-        <input class="roleInput" placeholder="role" name="Role"/><br/>
+        <input type="hidden" id="modifyId" name="Id"/>
+        <input required placeholder="login" name="Login"/><br/>
+        <input required class="passwordInput" placeholder="password" name="Password"/><br/>
+        <select size="1" class="roleInput" name="Role">
+            <option value="user">user</option>
+            <option value="admin">admin</option>
+        </select><br/>       
         <button class="accept" type="submit">Принять</button>
-    </form>   
+    </form>
 </div>
 
 <div id="addWindow">
-    <img class="close" onclick="addUser('none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
+    <img class="close" onclick="addUser('none')" src="~/images/close.png">
     <h1>Введите данные</h1>
-    
-    <form action="~/Users/AddUser">        
-        <input placeholder="login" name="Login"/><br/>
-        <input class="passwordInput" placeholder="password" name="Password"/><br/>
-        <input class="roleInput" placeholder="role" name="Role"/><br/>
+
+    <form action="~/Users/AddUser">
+        <input required placeholder="login" name="Login"/><br/>
+        <input required class="passwordInput" placeholder="password" name="Password"/><br/>
+        <select size="1" class="roleInput" name="Role">
+            <option value="user">user</option>
+            <option value="admin">admin</option>
+        </select><br/>
         <button class="accept" type="submit">Принять</button>
-    </form>   
+    </form>
+</div>
+
+<div id="deleteWindow">
+    <img class="close" onclick="deleteUser('none')" src="~/images/close.png">
+    <h1>Вы уверены?</h1>
+
+    <form action="~/Users/DeleteUser">
+        <input type="hidden" id="deleteId" name="Id"/>
+        <button class="accept" type="submit">Принять</button>
+    </form>
 </div>
 
 <div>
@@ -51,21 +75,19 @@
                 <td>@user.Login</td>
                 <td>@user.Password</td>
                 <td>@user.Role</td>
-                <td>                   
-                    <button onclick="modifyUser('block', @user.Id)" >Редактировать</button>                    
+                <td>
+                    <button onclick="modifyUser('block', @user.Id)">Редактировать</button>
                 </td>
                 <td>
-                    <form action="~/Users/DeleteUser">
-                        <button name="userId", value=@user.Id >Удалить</button>
-                    </form>
+                    <button onclick="deleteUser('block', @user.Id)">Удалить</button>
                 </td>
             </tr>
         }
     </table>
 </div>
 
-<div>  
-     <button onclick="addUser('block')">Добавить пользователя</button>   
+<div>
+    <button onclick="addUser('block')">Добавить пользователя</button>
 </div>
 
 </body>

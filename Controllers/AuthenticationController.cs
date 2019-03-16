@@ -28,25 +28,20 @@ namespace AccountingSystem.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
-            if (model.IsValid())
+            string login = model.Login;
+            int password = model.Password;
+
+            User user = _userRepository.GetOne(login, password);
+
+            if (user == null)
             {
-                string login = model.Login;
-                int password = model.Password;
-
-                User user = _userRepository.GetOne(login, password);
-
-                if (user == null)
-                {
-                    model.AuthenticationError = "Пользователь не найден";
-                    return View(model);
-                }
-
-                HttpContext.Session.Set("user", user);
-
-                return RedirectToAction("Menu", "Menu");
+                model.AuthenticationError = "Пользователь не найден";
+                return View(model);
             }
 
-            return View(model);
+            HttpContext.Session.Set("user", user);
+
+            return RedirectToAction("Menu", "Menu");
         }
     }
 }

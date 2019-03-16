@@ -18,10 +18,8 @@
 <div>
     <form method="post" action="~/Authentication/Login">   
         <p>@Model.AuthenticationError</p>
-        <input placeholder="login" name="login" />
-        <p>@Model.LoginError</p>
-        <input class="input2" placeholder="password" type="password" name="password"/>
-        <p>@Model.PasswordError</p>
+        <input required placeholder="login" name="login" />       
+        <input required class="input2" placeholder="password" type="password" name="password"/>        
         <button type="submit">Войти</button>
     </form>
 </div>
