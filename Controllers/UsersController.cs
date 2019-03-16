@@ -28,7 +28,7 @@ namespace AccountingSystem.Controllers
             return View(users);
         }
 
-        public IActionResult DeleteUser(long userId)
+        public IActionResult DeleteUser(long id)
         {
             List<User> users = HttpContext.Session.Get<List<User>>("users");
             
@@ -37,8 +37,8 @@ namespace AccountingSystem.Controllers
                 users = _userRepository.GetAll();
             }
             
-            _userRepository.Delete(userId);
-            User user = users.FirstOrDefault(u => u.Id == userId);
+            _userRepository.Delete(id);
+            User user = users.FirstOrDefault(u => u.Id == id);
             users.Remove(user);
             HttpContext.Session.Set("users", users);
             
