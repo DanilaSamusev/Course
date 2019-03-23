@@ -28,6 +28,8 @@ namespace AccountingSystem.Controllers
                 users = _userRepository.GetAll();
             }
 
+            
+            
             return View(users);
         }
 

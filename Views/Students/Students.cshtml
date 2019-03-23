@@ -1,14 +1,42 @@
+@model List<Student>
+@using AccountingSystem.Models
 
 
 <!DOCTYPE html>
 
 <html>
 <head>
-    <title>title</title>
+    <title>Students</title>
+    <link href="~/css/common.css" type="text/css" rel="stylesheet"/>
+    <link href="~/css/table.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
 <div>
-      
+    <table>
+        <tr>
+            <th>Группа</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Отчество</th>
+            <th>Количесвто задолжностей</th>
+        </tr>
+        @foreach (Student student in Model)
+        {
+            <tr>                
+                <td>@student.GroupNumber</td>
+                <td>@student.Name</td>
+                <td>@student.Surname</td>
+                <td>@student.Patronymic</td>
+                <td>@student.Debts</td>
+                <td>
+                    <form action="~/Students/Rating">
+                        <input type="hidden" name="studentId" value=@student.Id />
+                        <button type="submit">Успеваемость</button>
+                    </form>
+                </td>                
+            </tr>
+        }
+    </table>
 </div>
 </body>
 </html>
