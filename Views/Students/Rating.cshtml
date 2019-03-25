@@ -1,5 +1,9 @@
+@using AccountingSystem.Models
+@using AccountingSystem.Extensions
 @{
-    
+    Student student = Context.Session.Get<Student>("currentStudent");
+    IDictionary<string, object> examsRating = Context.Session.Get<IDictionary<string, object>>("examsRating");
+    IDictionary<string, object> scoresRating = Context.Session.Get<IDictionary<string, object>>("scoresRating");
 }
 
 <!DOCTYPE html>
@@ -11,6 +15,11 @@
     <link href="~/css/table.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
+
+<div>    
+    <h1>@student.Surname @student.Name @student.Patronymic</h1>
+</div>
+
 <div>
     <table>
         <tr>
@@ -18,16 +27,31 @@
             <th>Психология</th>
             <th>Математика</th>
             <th>Физика</th>
-            <th>Программирование</th>
-            <th>Количесвто задолжностей</th>
+            <th>Программирование</th>            
             <th>История</th>
             <th>Политология</th>
             <th>Физ. культура</th>
             <th>Иностранный язык</th>
             <th>Химия</th>
         </tr>
-        
+        <tr>
+            @foreach (var rating in examsRating)
+            {
+                <td>@rating.Value</td>                
+            }
+            @foreach (var rating in scoresRating)
+            {
+                <td>@rating.Value</td>                
+            }
+        </tr>
     </table>
 </div>
+
+<div>
+    <form action="~/Students/Students">
+        <button style="" type="submit">Назад</button>
+    </form>
+</div>
+
 </body>
 </html>

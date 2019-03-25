@@ -46,9 +46,9 @@ namespace AccountingSystem.Controllers
             HttpContext.Session.Set("currentStudent", currentStudent);
 
             IDictionary<string, object> examsRating = _ratingRepository.GetExamsRating(currentStudent.Id);
-            IDictionary<string, object> scoresRating = _ratingRepository.GetScoresRating(currentStudent.Id);
+            IDictionary<string, object> scoresRating = _ratingRepository.GetScoresRating(currentStudent.Id);           
             HttpContext.Session.Set("examsRating", examsRating);
-            HttpContext.Session.Set("scoreRating", scoresRating);
+            HttpContext.Session.Set("scoresRating", scoresRating);
             
             return View();
         }
