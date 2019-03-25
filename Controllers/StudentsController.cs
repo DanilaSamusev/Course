@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using AccountingSystem.Models;
 using AccountingSystem.Extensions;
 using AccountingSystem.Repository;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace AccountingSystem.Controllers
 {
@@ -76,8 +74,21 @@ namespace AccountingSystem.Controllers
             }
         }
 
-        public IActionResult DeleteStudent(long studentId)
+        public IActionResult DeleteStudent(long id)
         {
+            List<Student> students = HttpContext.Session.Get<List<Student>>("students");
+
+            if (students == null)
+            {
+                students = _studentRepository.GetAll();
+            }
+
+            Student student = students.FirstOrDefault(s => s.Id == id);
+            
+            _studentRepository.Delete(student.Id);
+            students.Remove(student);
+            HttpContext.Session.Set("students", students);
+            
             return RedirectToAction("Students", "Students");
         }
     }

@@ -39,6 +39,6 @@ namespace AccountingSystem.Repository
 
                 return scoresRating;
             }
-        }
+        }              
     }
 }

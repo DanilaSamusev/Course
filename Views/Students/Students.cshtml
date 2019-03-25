@@ -48,8 +48,11 @@
                     </form>
                 </td>
                 <td>
-                    <button onclick="deleteStudent('block', @student.Id)">Удалить</button>
+                    <button onclick="modifyStudent('block', @student.Id)">Редактировать</button>
                 </td>
+                <td>
+                    <button onclick="deleteStudent('block', @student.Id)">Удалить</button>
+                </td>               
             </tr>
         }
     </table>

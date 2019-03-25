@@ -1,5 +1,4 @@
 @using AccountingSystem.Models
-@using Microsoft.AspNetCore.Http
 @using AccountingSystem.Extensions;
 @model List<User>
 @{
@@ -11,18 +10,19 @@
 <head>
     <title>Users</title>
     <link href="~/css/common.css" type="text/css" rel="stylesheet"/>
-    <link href="~/css/users.css" type="text/css" rel="stylesheet"/>
-    
+    <link href="~/css/users.css" type="text/css" rel="stylesheet"/>   
     <script src="~/js/users.js" type="text/javascript"></script>
 </head>
 <body>
 
 @if(error != null){
-<div><p>@error</p></div>
+    <div>        
+        <p>@error</p>
+    </div>
 }
 
 <div id="modifyWindow">
-    <img class="close" onclick="modifyUser('none')" src="~/images/close.png">
+    <img class="closeImage" onclick="modifyUser('none')" src="~/images/close.png">
     <h1>Введите новые данные</h1>
 
     <form action="~/Users/ModifyUser">
@@ -33,12 +33,12 @@
             <option value="user">user</option>
             <option value="admin">admin</option>
         </select><br/>       
-        <button class="accept" type="submit">Принять</button>
+        <button class="submitButton" type="submit">Принять</button>
     </form>
 </div>
 
 <div id="addWindow">
-    <img class="close" onclick="addUser('none')" src="~/images/close.png">
+    <img class="closeImage" onclick="addUser('none')" src="~/images/close.png">
     <h1>Введите данные</h1>
 
     <form action="~/Users/AddUser">
@@ -48,26 +48,26 @@
             <option value="user">user</option>
             <option value="admin">admin</option>
         </select><br/>
-        <button class="accept" type="submit">Принять</button>
+        <button class="submitButton" type="submit">Принять</button>
     </form>
 </div>
 
 <div id="deleteWindow">
-    <img class="close" onclick="deleteUser('none')" src="~/images/close.png">
+    <img class="closeImage" onclick="deleteUser('none')" src="~/images/close.png">
     <h1>Вы уверены?</h1>
 
     <form action="~/Users/DeleteUser">
         <input type="hidden" id="deleteId" name="Id"/>
-        <button class="accept" type="submit">Принять</button>
+        <button class="submitButton" type="submit">Принять</button>
     </form>
 </div>
 
 <div>
     <table>
         <tr>
-            <th>Login</th>
-            <th>Password</th>
-            <th>Role</th>
+            <th>Логин</th>
+            <th>Пароль</th>
+            <th>Роль</th>
         </tr>
         @foreach (User user in Model)
         {
