@@ -11,6 +11,7 @@ namespace AccountingSystem.Controllers
 {
     public class StudentsController : Controller
     {       
+        // MySQL repositories
         private StudentRepository _studentRepository { get; set; }
         private RatingRepository _ratingRepository { get; set; }
         
@@ -20,6 +21,7 @@ namespace AccountingSystem.Controllers
             _ratingRepository = ratingRepository;
         }
         
+        // This method returns sorted list of students 
         public IActionResult Students()
         {
             List<Student> students = HttpContext.Session.Get<List<Student>>("students");
@@ -35,6 +37,7 @@ namespace AccountingSystem.Controllers
             return View(students);
         }
 
+        // This method returns student rating 
         public IActionResult Rating(long studentId)
         {
             List<Student> students = HttpContext.Session.Get<List<Student>>("students");
@@ -55,7 +58,7 @@ namespace AccountingSystem.Controllers
             return View();
         }
 
-
+        // This method fills student rating for displaying 
         private void FillRating(List<Student> students)
         {
             foreach (Student student in students)    
@@ -71,6 +74,11 @@ namespace AccountingSystem.Controllers
                 debts += examsDebts + scoresDebts;
                 student.Debts = debts;
             }
+        }
+
+        public IActionResult DeleteStudent(long studentId)
+        {
+            return RedirectToAction("Students", "Students");
         }
     }
 }
