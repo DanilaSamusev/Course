@@ -30,6 +30,8 @@ namespace AccountingSystem.Controllers
                 FillRating(students);
             }
             
+            students.Sort();
+            
             return View(students);
         }
 
