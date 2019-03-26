@@ -1,4 +1,4 @@
-function modifyUser(state, id){
+function modifyStudent(state, id){
 
     document.getElementById('modifyWindow').style.display = state;
     document.getElementById('modifyId').value = id;

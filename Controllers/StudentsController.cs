@@ -26,10 +26,10 @@ namespace AccountingSystem.Controllers
 
             if (students == null)
             {
-                students = _studentRepository.GetAll();
-                FillRating(students);
+                students = _studentRepository.GetAll();              
             }
             
+            FillRating(students);
             students.Sort();
             
             return View(students);
@@ -87,6 +87,25 @@ namespace AccountingSystem.Controllers
             
             _studentRepository.Delete(student.Id);
             students.Remove(student);
+            HttpContext.Session.Set("students", students);
+            
+            return RedirectToAction("Students", "Students");
+        }
+
+        public IActionResult ModifyStudent(Student student)
+        {            
+            List<Student> students = HttpContext.Session.Get<List<Student>>("students");
+
+            if (students == null)
+            {
+                students = _studentRepository.GetAll();
+            }
+
+            Student oldStudent = students.FirstOrDefault(s => s.Id == student.Id);
+            
+            _studentRepository.Modify(student);
+            students.Remove(oldStudent);
+            students.Add(student);
             HttpContext.Session.Set("students", students);
             
             return RedirectToAction("Students", "Students");

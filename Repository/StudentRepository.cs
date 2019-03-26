@@ -36,5 +36,27 @@ namespace AccountingSystem.Repository
                 connection.Query(strQuery, new {studentId});               
             }
         }
+
+        public void Modify(Student student)
+        {
+            long id = student.Id;
+            int groupNumber = student.GroupNumber;
+            string name = student.Name;
+            string surname = student.Surname;
+            string patronymic = student.Patronymic;
+
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                string strQuery =
+                    "Update students set" +
+                    " group_number = @groupNumber," +
+                    " name = @name," +
+                    " surname = @surname," +
+                    " patronymic = @patronymic" +
+                    " where id = @id";
+
+                connection.Query(strQuery, new {groupNumber, name, surname, patronymic, id});
+            }
+        }
     }
 }

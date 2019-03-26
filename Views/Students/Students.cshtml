@@ -14,6 +14,20 @@
 </head>
 <body>
 
+<div id="modifyWindow">
+    <img class="closeImage" onclick="modifyStudent('none')" src="~/images/close.png">
+    <h1>Введите новые данные</h1>
+
+    <form action="~/Students/ModifyStudent">
+        <input type="hidden" id="modifyId" name="Id"/>
+        <input required placeholder="Группа" name="GroupNumber"/><br/>
+        <input required placeholder="Имя" name="Name"/><br/>
+        <input required placeholder="Фамилия" name="Surname"/><br/>
+        <input required placeholder="Отчество" name="Patronymic"/><br/>                     
+        <button class="submitButton" type="submit">Принять</button>
+    </form>
+</div>
+
 <div id="deleteWindow">
     <img class="close" onclick="deleteStudent('none')" src="~/images/close.png">
     <h1>Вы уверены?</h1>
@@ -43,7 +57,7 @@
                 <td>@student.Debts</td>
                 <td>
                     <form action="~/Students/Rating">
-                        <input type="hidden" name="studentId" value=@student.Id/>
+                        <input type="hidden" name="studentId" value=@student.Id />
                         <button type="submit">Успеваемость</button>
                     </form>
                 </td>
