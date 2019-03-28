@@ -58,5 +58,19 @@ namespace AccountingSystem.Repository
                 connection.Query(strQuery, new {groupNumber, name, surname, patronymic, id});
             }
         }
+
+        public Student Add(Student student)
+        {                                   
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                string strQuery = "Insert into students (group_number, name, surname, patronymic) values" +
+                                  " (@GroupNumber, @Name, @Surname, @Patronymic); Select LAST_INSERT_ID();";
+                                             
+                long id = connection.Query<long>(strQuery, student).FirstOrDefault();
+                student.Id = id;
+
+                return student;
+            }
+        }
     }
 }

@@ -110,5 +110,16 @@ namespace AccountingSystem.Controllers
             
             return RedirectToAction("Students", "Students");
         }
+
+        public IActionResult AddStudent(Student student, ExamsRating examsRating, ScoresRating scoresRating)
+        {
+            student = _studentRepository.Add(student);
+            examsRating.StudentId = student.Id;
+            scoresRating.StudentId = student.Id;
+            _ratingRepository.AddExamRating(examsRating);
+            _ratingRepository.AddScoreRating(scoresRating);
+            
+            return RedirectToAction("Students", "Students");
+        }
     }
 }

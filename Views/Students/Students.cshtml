@@ -38,6 +38,35 @@
     </form>
 </div>
 
+<div id="addWindow">
+    <img class="closeImage" onclick="addStudent('none')" src="~/images/close.png">
+    
+    <h1>Введите данные</h1>
+    <input type="hidden" id="modifyId" name="Id"/>
+    <input required placeholder="Группа" name="GroupNumber"/><br/>
+    <input required placeholder="Имя" name="Name"/><br/>
+    <input required placeholder="Фамилия" name="Surname"/><br/>
+    <input required placeholder="Отчество" name="Patronymic"/><br/>
+    
+    <h1>Экзамены</h1>
+    <input required placeholder="Философия" name="Philosophy"/><br/>
+    <input required placeholder="Психология" name="Psychology"/><br/>
+    <input required placeholder="Математика" name="Mathematics"/><br/>
+    <input required placeholder="Физика" name="Physics"/><br/>
+    <input required placeholder="Программирование" name="Programming"/><br/>
+    
+    <h1>Зачёты</h1>
+    <input required placeholder="История" name="History"/><br/>
+    <input required placeholder="Политология" name="Political_Science"/><br/>
+    <input required placeholder="Физ. культура" name="PE"/><br/>
+    <input required placeholder="Иностранный язык" name="Foreign_Language"/><br/>
+    <input required placeholder="Химия" name="Chemistry"/><br/>    
+    
+    <form action="~/Students/AddStudent">          
+        <button class="submitButton" type="submit">Принять</button>
+    </form>
+</div>
+
 <div>
     <table>
         <tr>
@@ -70,6 +99,10 @@
             </tr>
         }
     </table>
+</div>
+
+<div>
+    <button onclick="addStudent('block')">Добавить студента</button>
 </div>
 
 <div>

@@ -4,7 +4,7 @@ function modifyStudent(state, id){
     document.getElementById('modifyId').value = id;
 }
 
-function addUser(state){
+function addStudent(state){
     document.getElementById('addWindow').style.display = state;
 }
 
