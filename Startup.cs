@@ -23,9 +23,12 @@ namespace AccountingSystem
             
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {        
-                StreamReader reader = new StreamReader("wwwroot/sql/script.sql");
-                string script = reader.ReadToEnd();
-                connection.Query(script);
+                StreamReader reader1 = new StreamReader("wwwroot/sql/tableCreationScript.sql");
+                StreamReader reader2 = new StreamReader("wwwroot/sql/tablesFillingScript.sql");
+                string script1 = reader1.ReadToEnd();
+                string script2 = reader2.ReadToEnd();
+                connection.Query(script1);
+                connection.Query(script2);
             }
         }
 
@@ -38,6 +41,8 @@ namespace AccountingSystem
             services.AddSession();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSingleton<UserRepository>(ur => new UserRepository(connectionString));
+            services.AddSingleton<StudentRepository>(sr => new StudentRepository(connectionString));
+            services.AddSingleton<RatingRepository>(rr => new RatingRepository(connectionString));
             services.AddSingleton<Validator>();
         }
 
@@ -58,7 +63,7 @@ namespace AccountingSystem
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Preview}/{action=Preview}/{id?}");
+                    template: "{controller=Menu}/{action=Menu}/{id?}");
             });
         }
     }

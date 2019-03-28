@@ -9,6 +9,10 @@ img {
     width: 200px;
 }
 
+.usersImage {
+    margin-left: 70px;
+}
+
 form {
     display: inline;
 }
@@ -17,6 +21,3 @@ button {
     margin-left: 500px;
 }
 
-.users {
-    margin-left: 70px;
-}

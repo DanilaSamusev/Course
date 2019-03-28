@@ -1,14 +1,115 @@
+@model List<Student>
+@using AccountingSystem.Models
 
 
 <!DOCTYPE html>
 
 <html>
 <head>
-    <title>title</title>
+    <title>Students</title>
+    <link href="~/css/common.css" type="text/css" rel="stylesheet"/>
+    
+    <link href="~/css/students.css" type="text/css" rel="stylesheet"/>
+    <script src="~/js/students.js" type="text/javascript"></script>
 </head>
 <body>
-<div>
-      
+
+<div id="modifyWindow">
+    <img class="closeImage" onclick="modifyStudent('none')" src="~/images/close.png">
+    <h1>Введите новые данные</h1>
+
+    <form action="~/Students/ModifyStudent">
+        <input type="hidden" id="modifyId" name="Id"/>
+        <input required placeholder="Группа" name="GroupNumber"/><br/>
+        <input required placeholder="Имя" name="Name"/><br/>
+        <input required placeholder="Фамилия" name="Surname"/><br/>
+        <input required placeholder="Отчество" name="Patronymic"/><br/>                     
+        <button class="submitButton" type="submit">Принять</button>
+    </form>
 </div>
+
+<div id="deleteWindow">
+    <img class="close" onclick="deleteStudent('none')" src="~/images/close.png">
+    <h1>Вы уверены?</h1>
+
+    <form action="~/Students/DeleteStudent">
+        <input type="hidden" id="deleteId" name="Id"/>
+        <button class="accept" type="submit">Принять</button>
+    </form>
+</div>
+
+<div id="addWindow">
+    <img class="closeImage" onclick="addStudent('none')" src="~/images/close.png">
+    
+    <h1>Введите данные</h1>
+    <input type="hidden" id="modifyId" name="Id"/>
+    <input required placeholder="Группа" name="GroupNumber"/><br/>
+    <input required placeholder="Имя" name="Name"/><br/>
+    <input required placeholder="Фамилия" name="Surname"/><br/>
+    <input required placeholder="Отчество" name="Patronymic"/><br/>
+    
+    <h1>Экзамены</h1>
+    <input required placeholder="Философия" name="Philosophy"/><br/>
+    <input required placeholder="Психология" name="Psychology"/><br/>
+    <input required placeholder="Математика" name="Mathematics"/><br/>
+    <input required placeholder="Физика" name="Physics"/><br/>
+    <input required placeholder="Программирование" name="Programming"/><br/>
+    
+    <h1>Зачёты</h1>
+    <input required placeholder="История" name="History"/><br/>
+    <input required placeholder="Политология" name="Political_Science"/><br/>
+    <input required placeholder="Физ. культура" name="PE"/><br/>
+    <input required placeholder="Иностранный язык" name="Foreign_Language"/><br/>
+    <input required placeholder="Химия" name="Chemistry"/><br/>    
+    
+    <form action="~/Students/AddStudent">          
+        <button class="submitButton" type="submit">Принять</button>
+    </form>
+</div>
+
+<div>
+    <table>
+        <tr>
+            <th>Группа</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Отчество</th>
+            <th>Количесвто задолжностей</th>
+        </tr>
+        @foreach (Student student in Model)
+        {
+            <tr>
+                <td>@student.GroupNumber</td>
+                <td>@student.Name</td>
+                <td>@student.Surname</td>
+                <td>@student.Patronymic</td>
+                <td>@student.Debts</td>
+                <td>
+                    <form action="~/Students/Rating">
+                        <input type="hidden" name="studentId" value=@student.Id />
+                        <button type="submit">Успеваемость</button>
+                    </form>
+                </td>
+                <td>
+                    <button onclick="modifyStudent('block', @student.Id)">Редактировать</button>
+                </td>
+                <td>
+                    <button onclick="deleteStudent('block', @student.Id)">Удалить</button>
+                </td>               
+            </tr>
+        }
+    </table>
+</div>
+
+<div>
+    <button onclick="addStudent('block')">Добавить студента</button>
+</div>
+
+<div>
+    <form action="~/Menu/Menu">
+        <button type="submit">Назад</button>
+    </form>
+</div>
+
 </body>
 </html>

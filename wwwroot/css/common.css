@@ -24,3 +24,22 @@ hr {
     background-image: -ms-linear-gradient(left, #fff, #000, #fff);
     background-image: -o-linear-gradient(left, #fff, #000, #fff);
 }
+
+table {
+    text-align: left;
+    border-collapse: separate;
+    border-spacing: 5px;
+    background: #ffffff;
+    color: #656665;
+    border: 7px solid #010101;
+    border-radius: 20px;
+}
+th {
+    background: #aaaaaa;
+    font-size: 18px;
+    padding: 10px;
+}
+td {
+    background: #e5e5e5;
+    padding: 10px;
+}
