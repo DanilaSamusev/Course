@@ -20,10 +20,9 @@ namespace AccountingSystem.Repository
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
                 string strQuery = "Select " +
-                                  "philosophy, psychology, mathematics, physics, programming" +
-                                  " from exams where" +
-                                  " student_id = @studentId";
-
+                                  "philosophy, psychology, mathematics, physics, programming from exams" +
+                                  " where student_id = @studentId";
+                                                     
                 IDictionary<string, object> examsRating = connection.Query(strQuery, new {studentId}).SingleOrDefault();                
 
                 return examsRating;

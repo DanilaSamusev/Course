@@ -20,7 +20,8 @@ namespace AccountingSystem.Repository
         {
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
-                string strQuery = "Select * from users where login = @login and password = @password";
+                string strQuery = "Select * from users" +
+                                  " where login = @login and password = @password";
 
                 User user = connection.Query<User>(strQuery, new {login, password}).FirstOrDefault();
 
@@ -44,39 +45,37 @@ namespace AccountingSystem.Repository
         {
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
-                string strQuery = "Delete from users where id = @userId";
+                string strQuery = "Delete from users" +
+                                  " where id = @userId";
 
                 connection.Query(strQuery, new {userId});                
             }
         }
 
         public void Modify(User user)
-        {
-            long id = user.Id;
-            string login = user.Login;
-            int password = user.Password;
-            string role = user.Role;
-            
+        {                        
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
-                string strQuery = "Update users set login = @login, password = @password, role = @role where id = @id";
+                string strQuery = "Update users set" +
+                                  " login = @Login," +
+                                  " password = @Password," +
+                                  " role = @Role" +
+                                  " where id = @Id";
 
-                connection.Query(strQuery, new {id, login, password, role});
+                connection.Query(strQuery, user);
             }
         }
 
         public void Add(User user)
-        {           
-            string login = user.Login;
-            int password = user.Password;
-            string role = user.Role;
-
+        {                      
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
-                string strQuery = "Insert into users (login, password, role)" +
-                                  "values(@login, @password, @role)";
+                string strQuery = "Insert into users" +
+                                  " (login, password, role)" +
+                                  " values" +
+                                  " (@Login, @Password, @Role)";
 
-                connection.Query(strQuery, new {login, password, role});
+                connection.Query(strQuery, user);
             }
         }
         

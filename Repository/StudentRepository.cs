@@ -31,31 +31,26 @@ namespace AccountingSystem.Repository
         {          
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
-                string strQuery = "Delete from students where id = @studentId";
+                string strQuery = "Delete from students" +
+                                  " where id = @studentId";
 
                 connection.Query(strQuery, new {studentId});               
             }
         }
 
         public void Modify(Student student)
-        {
-            long id = student.Id;
-            int groupNumber = student.GroupNumber;
-            string name = student.Name;
-            string surname = student.Surname;
-            string patronymic = student.Patronymic;
-
+        {           
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
                 string strQuery =
                     "Update students set" +
-                    " group_number = @groupNumber," +
-                    " name = @name," +
-                    " surname = @surname," +
-                    " patronymic = @patronymic" +
-                    " where id = @id";
+                    " group_number = @GroupNumber," +
+                    " name = @Name," +
+                    " surname = @Surname," +
+                    " patronymic = @Patronymic" +
+                    " where id = @Id";
 
-                connection.Query(strQuery, new {groupNumber, name, surname, patronymic, id});
+                connection.Query(strQuery, student);
             }
         }
 
@@ -63,8 +58,10 @@ namespace AccountingSystem.Repository
         {                                   
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
-                string strQuery = "Insert into students (group_number, name, surname, patronymic) values" +
-                                  " (@GroupNumber, @Name, @Surname, @Patronymic); Select LAST_INSERT_ID();";
+                string strQuery = "Insert into students" +
+                                  " (group_number, name, surname, patronymic) values" +
+                                  " (@GroupNumber, @Name, @Surname, @Patronymic);" +
+                                  " Select LAST_INSERT_ID();";
                                              
                 long id = connection.Query<long>(strQuery, student).FirstOrDefault();
                 student.Id = id;
