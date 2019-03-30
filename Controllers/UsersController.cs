@@ -13,6 +13,8 @@ namespace AccountingSystem.Controllers
         private UserRepository _userRepository { get; set; }
         private Validator _validator { get; set; }
 
+        private const string USERS = "users";
+
         public UsersController(UserRepository userRepository, Validator validator)
         {
             _userRepository = userRepository;
@@ -21,68 +23,46 @@ namespace AccountingSystem.Controllers
 
         public IActionResult Users()
         {
-            List<User> users = HttpContext.Session.Get<List<User>>("users");
-
-            if (users == null)
-            {
-                users = _userRepository.GetAll();
-            }
-
-            
-            
+            List<User> users = GetUsersFromSession();
+                     
             return View(users);
         }
 
         public IActionResult DeleteUser(long id)
         {
-            List<User> users = HttpContext.Session.Get<List<User>>("users");
-
-            if (users == null)
-            {
-                users = _userRepository.GetAll();
-            }
+            List<User> users = GetUsersFromSession();
 
             _userRepository.Delete(id);
             User user = users.FirstOrDefault(u => u.Id == id);
             users.Remove(user);
-            HttpContext.Session.Set("users", users);
+            HttpContext.Session.Set(USERS, users);
 
             return RedirectToAction("Users", "Users");
         }
 
         public IActionResult ModifyUser(User user)
         {
-            List<User> users = HttpContext.Session.Get<List<User>>("users");
-
-            if (users == null)
-            {
-                users = _userRepository.GetAll();
-            }
+            List<User> users = GetUsersFromSession();
 
             User oldUser = users.FirstOrDefault(u => u.Id == user.Id);
 
             _userRepository.Modify(user);
             users.Remove(oldUser);
             users.Add(user);
-            HttpContext.Session.Set("users", users);
+            HttpContext.Session.Set(USERS, users);
 
             return RedirectToAction("Users", "Users");
         }
 
         public IActionResult AddUser(User user)
         {
-            List<User> users = HttpContext.Session.Get<List<User>>("users");
-
-            if (users == null)
-            {
-                users = _userRepository.GetAll();
-            }
+            List<User> users = GetUsersFromSession();
 
             if (_validator.IsUnique(user ,users))
             {
                 _userRepository.Add(user);
                 users.Add(user);
-                HttpContext.Session.Set("users", users);              
+                HttpContext.Session.Set(USERS, users);              
             }
             else
             {
@@ -91,6 +71,18 @@ namespace AccountingSystem.Controllers
             }
             
             return RedirectToAction("Users", "Users");
+        }
+        
+        private List<User> GetUsersFromSession()
+        {
+            List<User> users = HttpContext.Session.Get<List<User>>(USERS);
+
+            if (users == null)
+            {
+                users = _userRepository.GetAll();
+            }
+
+            return users;
         }
     }
 }
