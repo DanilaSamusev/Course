@@ -16,13 +16,8 @@ namespace AccountingSystem.Controllers
 
         [HttpGet]
         public IActionResult Login()
-        {
-            LoginModel defaultModel = new LoginModel();
-            defaultModel.LoginError = "";
-            defaultModel.PasswordError = "";
-            defaultModel.AuthenticationError = "";
-
-            return View(defaultModel);
+        {           
+            return View();
         }
 
         [HttpPost]
