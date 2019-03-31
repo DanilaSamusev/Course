@@ -11,16 +11,11 @@
 <html>
 <head>
     <title>Students</title>
-    <link href="~/css/common.css" type="text/css" rel="stylesheet"/>    
+    <link href="~/css/common.css" type="text/css" rel="stylesheet"/>
     <link href="~/css/students.css" type="text/css" rel="stylesheet"/>
     <script src="~/js/students.js" type="text/javascript"></script>
 </head>
 <body>
-
-@if (ratingError != null)
-{
-    <h1>@ratingError</h1>
-}
 
 <div id="modifyWindow">
     <img class="closeImage" onclick="modifyStudent('none')" src="~/images/close.png">
@@ -31,7 +26,7 @@
         <input placeholder="Группа" name="GroupNumber"/><br/>
         <input placeholder="Имя" name="Name"/><br/>
         <input placeholder="Фамилия" name="Surname"/><br/>
-        <input placeholder="Отчество" name="Patronymic"/><br/>                     
+        <input placeholder="Отчество" name="Patronymic"/><br/>
         <button class="submitButton" type="submit">Принять</button>
     </form>
 </div>
@@ -43,35 +38,6 @@
     <form action="~/Students/DeleteStudent">
         <input type="hidden" id="deleteId" name="Id"/>
         <button class="accept" type="submit">Принять</button>
-    </form>
-</div>
-
-<div id="addWindow">
-    <img class="closeImage" onclick="addStudent('none')" src="~/images/close.png">
-    
-    <h1>Введите данные</h1>
-    <input type="hidden" id="modifyId" name="Id"/>
-    <input placeholder="Группа" name="GroupNumber"/><br/>
-    <input placeholder="Имя" name="Name"/><br/>
-    <input placeholder="Фамилия" name="Surname"/><br/>
-    <input placeholder="Отчество" name="Patronymic"/><br/>
-    
-    <h1>Экзамены</h1>
-    <input placeholder="Философия" name="Philosophy"/><br/>
-    <input placeholder="Психология" name="Psychology"/><br/>
-    <input placeholder="Математика" name="Mathematics"/><br/>
-    <input placeholder="Физика" name="Physics"/><br/>
-    <input placeholder="Программирование" name="Programming"/><br/>
-    
-    <h1>Зачёты</h1>
-    <input placeholder="История" name="History"/><br/>
-    <input placeholder="Политология" name="Political_Science"/><br/>
-    <input placeholder="Физ. культура" name="PE"/><br/>
-    <input placeholder="Иностранный язык" name="Foreign_Language"/><br/>
-    <input placeholder="Химия" name="Chemistry"/><br/>    
-    
-    <form action="~/Students/AddStudent">          
-        <button class="submitButton" type="submit">Принять</button>
     </form>
 </div>
 
@@ -103,14 +69,16 @@
                 </td>
                 <td>
                     <button onclick="deleteStudent('block', @student.Id)">Удалить</button>
-                </td>               
+                </td>
             </tr>
         }
     </table>
 </div>
 
 <div>
-    <button onclick="addStudent('block')">Добавить студента</button>
+    <form method="get" action="~/Students/AddStudent">
+        <button type="submit">Добавить студента</button>
+    </form>
 </div>
 
 <div>

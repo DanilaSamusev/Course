@@ -1,0 +1,47 @@
+@using AccountingSystem.Extensions
+@{
+    string ratingError = Context.Session.Get<string>("RatingError");
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+    <link href="~/css/common.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+
+@if (ratingError != null)
+{
+    <h1>@ratingError</h1>
+}
+
+<div id="addWindow">
+    <h1>Введите данные</h1>
+    <input type="hidden" id="modifyId" name="Id"/>
+    <input placeholder="Группа" name="GroupNumber"/><br/>
+    <input placeholder="Имя" name="Name"/><br/>
+    <input placeholder="Фамилия" name="Surname"/><br/>
+    <input placeholder="Отчество" name="Patronymic"/><br/>
+
+    <h1>Экзамены</h1>
+    <input placeholder="Философия" name="Philosophy"/><br/>
+    <input placeholder="Психология" name="Psychology"/><br/>
+    <input placeholder="Математика" name="Mathematics"/><br/>
+    <input placeholder="Физика" name="Physics"/><br/>
+    <input placeholder="Программирование" name="Programming"/><br/>
+
+    <h1>Зачёты</h1>
+    <input placeholder="История" name="History"/><br/>
+    <input placeholder="Политология" name="Political_Science"/><br/>
+    <input placeholder="Физ. культура" name="PE"/><br/>
+    <input placeholder="Иностранный язык" name="Foreign_Language"/><br/>
+    <input placeholder="Химия" name="Chemistry"/><br/>
+
+    <form method="post" action="~/Students/AddStudent">
+        <button class="submitButton" type="submit">Принять</button>
+    </form>
+</div>
+</body>
+</html>

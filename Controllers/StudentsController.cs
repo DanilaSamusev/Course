@@ -75,6 +75,13 @@ namespace AccountingSystem.Controllers
             return RedirectToAction("Students", "Students");
         }
 
+        [HttpGet]
+        public IActionResult AddStudent()
+        {
+            return View();
+        }
+        
+        [HttpPost]
         public IActionResult AddStudent(Student student, ExamsRating examsRating, ScoresRating scoresRating)
         {                              
             if (_validator.ExamsRatingIsValid(examsRating) && _validator.ScoresRatingIsValid(scoresRating))
@@ -88,7 +95,8 @@ namespace AccountingSystem.Controllers
             }
             else
             {
-                HttpContext.Session.Set("RatingError", "Некорректый ввод!");               
+                HttpContext.Session.Set("RatingError", "Некорректый ввод!");  
+                return View();
             }
                        
             return RedirectToAction("Students", "Students");
