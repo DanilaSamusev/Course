@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MySql.Data.MySqlClient;
+
 namespace AccountingSystem
 {
     public class Startup
@@ -21,12 +22,13 @@ namespace AccountingSystem
             
             string connectionString = Configuration.GetConnectionString("ConnectionString");
             
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection("server=localhost;user=root;database=student_rating_base;password=1234;"))
             {        
                 StreamReader reader1 = new StreamReader("wwwroot/sql/tableCreationScript.sql");
                 StreamReader reader2 = new StreamReader("wwwroot/sql/tablesFillingScript.sql");
                 string script1 = reader1.ReadToEnd();
                 string script2 = reader2.ReadToEnd();
+                connection.Open();
                 connection.Query(script1);
                 connection.Query(script2);
             }
