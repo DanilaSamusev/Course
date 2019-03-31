@@ -1,18 +1,26 @@
 @model List<Student>
 @using AccountingSystem.Models
+@using AccountingSystem.Extensions
 
+@{
+    string ratingError = Context.Session.Get<string>("RatingError");
+}
 
 <!DOCTYPE html>
 
 <html>
 <head>
     <title>Students</title>
-    <link href="~/css/common.css" type="text/css" rel="stylesheet"/>
-    
+    <link href="~/css/common.css" type="text/css" rel="stylesheet"/>    
     <link href="~/css/students.css" type="text/css" rel="stylesheet"/>
     <script src="~/js/students.js" type="text/javascript"></script>
 </head>
 <body>
+
+@if (ratingError != null)
+{
+    <h1>@ratingError</h1>
+}
 
 <div id="modifyWindow">
     <img class="closeImage" onclick="modifyStudent('none')" src="~/images/close.png">
@@ -20,10 +28,10 @@
 
     <form action="~/Students/ModifyStudent">
         <input type="hidden" id="modifyId" name="Id"/>
-        <input required placeholder="Группа" name="GroupNumber"/><br/>
-        <input required placeholder="Имя" name="Name"/><br/>
-        <input required placeholder="Фамилия" name="Surname"/><br/>
-        <input required placeholder="Отчество" name="Patronymic"/><br/>                     
+        <input placeholder="Группа" name="GroupNumber"/><br/>
+        <input placeholder="Имя" name="Name"/><br/>
+        <input placeholder="Фамилия" name="Surname"/><br/>
+        <input placeholder="Отчество" name="Patronymic"/><br/>                     
         <button class="submitButton" type="submit">Принять</button>
     </form>
 </div>
@@ -43,24 +51,24 @@
     
     <h1>Введите данные</h1>
     <input type="hidden" id="modifyId" name="Id"/>
-    <input required placeholder="Группа" name="GroupNumber"/><br/>
-    <input required placeholder="Имя" name="Name"/><br/>
-    <input required placeholder="Фамилия" name="Surname"/><br/>
-    <input required placeholder="Отчество" name="Patronymic"/><br/>
+    <input placeholder="Группа" name="GroupNumber"/><br/>
+    <input placeholder="Имя" name="Name"/><br/>
+    <input placeholder="Фамилия" name="Surname"/><br/>
+    <input placeholder="Отчество" name="Patronymic"/><br/>
     
     <h1>Экзамены</h1>
-    <input required placeholder="Философия" name="Philosophy"/><br/>
-    <input required placeholder="Психология" name="Psychology"/><br/>
-    <input required placeholder="Математика" name="Mathematics"/><br/>
-    <input required placeholder="Физика" name="Physics"/><br/>
-    <input required placeholder="Программирование" name="Programming"/><br/>
+    <input placeholder="Философия" name="Philosophy"/><br/>
+    <input placeholder="Психология" name="Psychology"/><br/>
+    <input placeholder="Математика" name="Mathematics"/><br/>
+    <input placeholder="Физика" name="Physics"/><br/>
+    <input placeholder="Программирование" name="Programming"/><br/>
     
     <h1>Зачёты</h1>
-    <input required placeholder="История" name="History"/><br/>
-    <input required placeholder="Политология" name="Political_Science"/><br/>
-    <input required placeholder="Физ. культура" name="PE"/><br/>
-    <input required placeholder="Иностранный язык" name="Foreign_Language"/><br/>
-    <input required placeholder="Химия" name="Chemistry"/><br/>    
+    <input placeholder="История" name="History"/><br/>
+    <input placeholder="Политология" name="Political_Science"/><br/>
+    <input placeholder="Физ. культура" name="PE"/><br/>
+    <input placeholder="Иностранный язык" name="Foreign_Language"/><br/>
+    <input placeholder="Химия" name="Chemistry"/><br/>    
     
     <form action="~/Students/AddStudent">          
         <button class="submitButton" type="submit">Принять</button>

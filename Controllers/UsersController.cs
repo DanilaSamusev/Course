@@ -58,7 +58,7 @@ namespace AccountingSystem.Controllers
         {
             List<User> users = GetUsersFromSession();
 
-            if (_validator.IsUnique(user ,users))
+            if (_validator.UserIsUnique(user ,users))
             {
                 _userRepository.Add(user);
                 users.Add(user);

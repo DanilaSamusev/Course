@@ -4,6 +4,7 @@ using AccountingSystem.Models;
 using AccountingSystem.Extensions;
 using AccountingSystem.Repository;
 using System.Linq;
+using AccountingSystem.Services;
 
 namespace AccountingSystem.Controllers
 {
@@ -11,18 +12,20 @@ namespace AccountingSystem.Controllers
     {              
         private StudentRepository _studentRepository { get; set; }
         private RatingRepository _ratingRepository { get; set; }
+        private Validator _validator { get; set; }
         private const string STUDENTS = "students";
         
-        public StudentsController(StudentRepository studentRepository, RatingRepository ratingRepository)
+        public StudentsController(StudentRepository studentRepository, RatingRepository ratingRepository, Validator validator)
         {
             _studentRepository = studentRepository;
             _ratingRepository = ratingRepository;
+            _validator = validator;
         }
         
         // Этот метод отображает отсортированный список студентов 
         public IActionResult Students()
         {
-            List<Student> students = GetStudentsFromSession();
+            List<Student> students = GetStudentsFromSession();           
             
             FillRating(students);
             students.Sort();
@@ -73,13 +76,21 @@ namespace AccountingSystem.Controllers
         }
 
         public IActionResult AddStudent(Student student, ExamsRating examsRating, ScoresRating scoresRating)
-        {
-            student = _studentRepository.Add(student);
-            examsRating.StudentId = student.Id;
-            scoresRating.StudentId = student.Id;
-            _ratingRepository.AddExamRating(examsRating);
-            _ratingRepository.AddScoreRating(scoresRating);
-            
+        {                              
+            if (_validator.ExamsRatingIsValid(examsRating) && _validator.ScoresRatingIsValid(scoresRating))
+            {
+                student = _studentRepository.Add(student);
+                examsRating.StudentId = student.Id;
+                scoresRating.StudentId = student.Id;
+                _ratingRepository.AddExamRating(examsRating);
+                _ratingRepository.AddScoreRating(scoresRating); 
+                HttpContext.Session.Set("RatingError", "");
+            }
+            else
+            {
+                HttpContext.Session.Set("RatingError", "Некорректый ввод!");               
+            }
+                       
             return RedirectToAction("Students", "Students");
         }
         
