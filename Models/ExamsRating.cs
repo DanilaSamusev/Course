@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace AccountingSystem.Models
 {
     public class ExamsRating
@@ -8,5 +10,7 @@ namespace AccountingSystem.Models
         public int Mathematics { get; set; }
         public int Physics { get; set; }
         public int Programming { get; set; }
+        
+        public Dictionary<string, int> rating { get; set; }
     }
 }

@@ -12,14 +12,17 @@ namespace AccountingSystem.Controllers
     {              
         private StudentRepository _studentRepository { get; set; }
         private RatingRepository _ratingRepository { get; set; }
-        private Validator _validator { get; set; }
+        private ExamsRatingValidator _examsRatingValidator { get; set; }
+        private ScoresRatingValidator _scoresRatingValidator { get; set; }       
         private const string STUDENTS = "students";
         
-        public StudentsController(StudentRepository studentRepository, RatingRepository ratingRepository, Validator validator)
+        public StudentsController(StudentRepository studentRepository, RatingRepository ratingRepository, Validator validator,
+            ExamsRatingValidator examsRatingValidator, ScoresRatingValidator scoresRatingValidator)
         {
             _studentRepository = studentRepository;
             _ratingRepository = ratingRepository;
-            _validator = validator;
+            _examsRatingValidator = examsRatingValidator;
+            _scoresRatingValidator = scoresRatingValidator;
         }
         
         // Этот метод отображает отсортированный список студентов 
@@ -32,22 +35,7 @@ namespace AccountingSystem.Controllers
             
             return View(students);
         }
-       
-        public IActionResult Rating(long studentId)
-        {
-            List<Student> students = GetStudentsFromSession();
-
-            Student currentStudent = students.FirstOrDefault(s => s.Id == studentId);
-            HttpContext.Session.Set("currentStudent", currentStudent);
-
-            IDictionary<string, object> examsRating = _ratingRepository.GetExamsRating(currentStudent.Id);
-            IDictionary<string, object> scoresRating = _ratingRepository.GetScoresRating(currentStudent.Id);           
-            HttpContext.Session.Set("examsRating", examsRating);
-            HttpContext.Session.Set("scoresRating", scoresRating);
-            
-            return View();
-        }
-
+              
         public IActionResult DeleteStudent(long id)
         {
             List<Student> students = GetStudentsFromSession();
@@ -84,7 +72,7 @@ namespace AccountingSystem.Controllers
         [HttpPost]
         public IActionResult AddStudent(Student student, ExamsRating examsRating, ScoresRating scoresRating)
         {                              
-            if (_validator.ExamsRatingIsValid(examsRating) && _validator.ScoresRatingIsValid(scoresRating))
+            if (_examsRatingValidator.ExamsRatingIsValid(examsRating) && _scoresRatingValidator.ScoresRatingIsValid(scoresRating))
             {
                 student = _studentRepository.Add(student);
                 examsRating.StudentId = student.Id;
@@ -129,6 +117,6 @@ namespace AccountingSystem.Controllers
             }
 
             return students;
-        }
+        }                               
     }
 }

@@ -1,0 +1,164 @@
+@using AccountingSystem.Extensions
+@{
+    long studentId = Context.Session.Get<long>("currentStudentId");
+    var a = 1;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+    <link href="~/css/common.css" type="text/css" rel="stylesheet"/>
+    <link href="~/css/rating.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<div>
+    <form class="inputForm" method="post" action="~/Rating/ModifyRating">
+        
+        <input type="hidden" name="examsRating.StudentId" value=@studentId ></input>        
+
+        <h1>Экзамены</h1>
+        <div>
+            <div class="select">
+                <input type="hidden" name="examsRating.rating[0].Key" value="philosophy">
+                Философия
+
+                <select name="examsRating.rating[0].Value">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+
+            <div class="select">
+                <input type="hidden" name="examsRating.rating[1].Key" value="psychology">
+                Психология
+                <select name="examsRating.rating[1].Value">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+
+            <div class="select">
+                <input type="hidden" name="examsRating.rating[2].Key" value="mathematics">
+                Математика
+                <select name="examsRating.rating[2].Value">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+
+            <div class="select">
+                <input type="hidden" name="examsRating.rating[3].Key" value="physics">
+                Физика
+                <select name="examsRating.rating[3].Value">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+
+            <div class="select">
+                <input type="hidden" name="examsRating.rating[4].Key" value="programming">
+                Программирование
+                <select name="examsRating.rating[4].Value">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+        </div>
+
+        <input type="hidden" name="StudentId" value=@studentId ></input>
+        
+        <h1>Зачёты</h1>
+        <div>
+            <div class="select">
+                История
+                <select name="History">
+                    <option value="зачёт">зачёт</option>
+                    <option value="незачёт">незачёт</option>
+                </select>
+            </div>
+
+            <div class="select">
+                Политология
+                <select name="PoliticalScience">
+                    <option value="зачёт">зачёт</option>
+                    <option value="незачёт">незачёт</option>
+                </select>
+            </div>
+
+            <div class="select">
+                Физ. культура
+                <select name="PE">
+                    <option value="зачёт">зачёт</option>
+                    <option value="незачёт">незачёт</option>
+                </select>
+            </div>
+
+            <div class="select">
+                Иностранный язык
+                <select name="ForeignLanguage">
+                    <option value="зачёт">зачёт</option>
+                    <option value="незачёт">незачёт</option>
+                </select>
+            </div>
+
+            <div class="select">
+                Химия
+                <select name="Chemistry">
+                    <option value="зачёт">зачёт</option>
+                    <option value="незачёт">незачёт</option>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit">Принять</button>
+    </form>
+</div>
+</body>
+</html>

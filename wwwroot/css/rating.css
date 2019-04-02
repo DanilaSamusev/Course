@@ -1,0 +1,20 @@
+select{
+    font-style: oblique;
+    background-color: #e5e5e5;
+    width: 200px;
+    height: 25px;
+}
+
+.inputForm{
+    position: fixed; left: 40%;
+    margin-top: 100px;
+}
+
+h1{
+    
+}
+
+div.select{
+    margin-top: 5px;
+    text-align: right;
+}
