@@ -112,45 +112,50 @@
             </div>
         </div>
 
-        <input type="hidden" name="StudentId" value=@studentId ></input>
+        <input type="hidden" name="scoresRating.StudentId" value=@studentId ></input>             
         
         <h1>Зачёты</h1>
         <div>
+            <input type="hidden" name="scoresRating.rating[0].Key" value="history">
             <div class="select">
                 История
-                <select name="History">
+                <select name="scoresRating.rating[0].Value">
                     <option value="зачёт">зачёт</option>
                     <option value="незачёт">незачёт</option>
                 </select>
             </div>
 
+            <input type="hidden" name="scoresRating.rating[1].Key" value="political_science">
             <div class="select">
                 Политология
-                <select name="PoliticalScience">
+                <select name="scoresRating.rating[1].Value">
                     <option value="зачёт">зачёт</option>
                     <option value="незачёт">незачёт</option>
                 </select>
             </div>
 
+            <input type="hidden" name="scoresRating.rating[2].Key" value="PE">
             <div class="select">
                 Физ. культура
-                <select name="PE">
+                <select name="scoresRating.rating[2].Value">
                     <option value="зачёт">зачёт</option>
                     <option value="незачёт">незачёт</option>
                 </select>
             </div>
 
+            <input type="hidden" name="scoresRating.rating[3].Key" value="foreign_language">
             <div class="select">
                 Иностранный язык
-                <select name="ForeignLanguage">
+                <select name="scoresRating.rating[3].Value">
                     <option value="зачёт">зачёт</option>
                     <option value="незачёт">незачёт</option>
                 </select>
             </div>
 
+            <input type="hidden" name="scoresRating.rating[4].Key" value="chemistry">
             <div class="select">
                 Химия
-                <select name="Chemistry">
+                <select name="scoresRating.rating[4].Value">
                     <option value="зачёт">зачёт</option>
                     <option value="незачёт">незачёт</option>
                 </select>

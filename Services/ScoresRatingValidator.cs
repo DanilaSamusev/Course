@@ -9,16 +9,15 @@ namespace AccountingSystem.Services
         
         public bool ScoresRatingIsValid(ScoresRating scoresRating)
         {
-            if (IsValid(scoresRating.Chemistry) &&
-                IsValid(scoresRating.History) &&
-                IsValid(scoresRating.ForeignLanguage) &&
-                IsValid(scoresRating.PE) &&
-                IsValid(scoresRating.PoliticalScience))
+            foreach (var pair in scoresRating.rating)
             {
-                return true;
+                if (!IsValid(pair.Value))
+                {
+                    return false;
+                }
             }
 
-            return false;
+            return true;
         }
 
         private bool IsValid(string score)

@@ -76,14 +76,9 @@ namespace AccountingSystem.Repository
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
                 string strExamsQuery = "Update exams set" + FormStrQuery(examsRating.rating, examsRating.StudentId);
-                                       
-                string strScoresQuery = "Update scores set" +
-                                        " history = @History," +
-                                        " political_science = @PoliticalScience," +
-                                        " PE = @PE," +
-                                        " foreign_language = @ForeignLanguage," +
-                                        " chemistry = @Chemistry" +
-                                        " where student_id = @StudentId";
+
+                string strScoresQuery = "Update scores set" + FormStrQuery(scoresRating.rating, scoresRating.StudentId);
+                
                 connection.Query(strExamsQuery, examsRating);
                 connection.Query(strScoresQuery, scoresRating);
             }
@@ -95,7 +90,16 @@ namespace AccountingSystem.Repository
 
             foreach (var pair in dictionary)
             {
-                strQuery += " " + pair.Key + " = " + pair.Value + ",";
+                strQuery += " " + pair.Key + " = ";
+
+                if (pair.Value is string)
+                {
+                    strQuery += "'" + pair.Value + "',";
+                }
+                else
+                {
+                    strQuery += pair.Value + ",";
+                }
             }
 
             int a = strQuery.LastIndexOf(',');
