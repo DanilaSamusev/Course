@@ -19,10 +19,6 @@ div.select{
     text-align: right;
 }
 
-button{
-    display: inline;
-}
-
 .submitButton{
     margin-left: 120px;
     margin-top: 25px;

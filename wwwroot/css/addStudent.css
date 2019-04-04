@@ -1,0 +1,45 @@
+.mainH1{
+    text-align: center;
+}
+
+.sideH1{
+    margin-left: 170px;
+}
+
+.inputForm{
+    position: fixed; left: 40%;
+    margin-top: 2%;
+}
+
+select{
+    font-style: oblique;
+    background-color: #e5e5e5;
+    width: 200px;
+    height: 25px;
+}
+
+
+div.select{
+    margin-top: 5px;
+    text-align: right;
+}
+
+input{
+    font-style: oblique;
+    background-color: #e5e5e5;
+    width: 250px;
+    height: 25px;
+    margin-left: 45px;
+    margin-top: 10px;
+}
+
+.submitButton{
+    margin-top: 15px;
+    margin-left: 120px;
+    margin-bottom: 10px;
+}
+
+.backButton{
+    margin-top: 810px;
+    margin-left: 865px;
+}

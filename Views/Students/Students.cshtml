@@ -1,10 +1,5 @@
 @model List<Student>
 @using AccountingSystem.Models
-@using AccountingSystem.Extensions
-
-@{
-    string ratingError = Context.Session.Get<string>("RatingError");
-}
 
 <!DOCTYPE html>
 
@@ -21,23 +16,23 @@
     <img class="closeImage" onclick="modifyStudent('none')" src="~/images/close.png">
     <h1>Введите новые данные</h1>
 
-    <form action="~/Students/ModifyStudent">
+    <form action="~/Students/UpdateStudent">
         <input type="hidden" id="modifyId" name="Id"/>
         <input placeholder="Группа" name="GroupNumber"/><br/>
         <input placeholder="Имя" name="Name"/><br/>
         <input placeholder="Фамилия" name="Surname"/><br/>
         <input placeholder="Отчество" name="Patronymic"/><br/>
-        <button class="submitButton" type="submit">Принять</button>
+        <button class="updateButton" type="submit">Принять</button>
     </form>
 </div>
 
 <div id="deleteWindow">
-    <img class="close" onclick="deleteStudent('none')" src="~/images/close.png">
+    <img class="closeImage" onclick="deleteStudent('none')" src="~/images/close.png">
     <h1>Вы уверены?</h1>
 
     <form action="~/Students/DeleteStudent">
         <input type="hidden" id="deleteId" name="Id"/>
-        <button class="accept" type="submit">Принять</button>
+        <button class="deleteButton" type="submit">Принять</button>
     </form>
 </div>
 
@@ -65,27 +60,23 @@
                     </form>
                 </td>
                 <td>
-                    <button onclick="modifyStudent('block', @student.Id)">Редактировать</button>
+                    <button onclick="modifyStudent('block', @student.Id )">Редактировать</button>
                 </td>
                 <td>
-                    <button onclick="deleteStudent('block', @student.Id)">Удалить</button>
+                    <button onclick="deleteStudent('block', @student.Id )">Удалить</button>
                 </td>
             </tr>
         }
     </table>
 </div>
 
-<div>
-    <form method="get" action="~/Students/AddStudent">
-        <button type="submit">Добавить студента</button>
-    </form>
-</div>
+<form class="addButton" method="get" action="~/Students/AddStudent">
+    <button type="submit">Добавить студента</button>
+</form>
 
-<div>
-    <form action="~/Menu/Menu">
-        <button type="submit">Назад</button>
-    </form>
-</div>
+<form class="backButton" action="~/Menu/Menu">
+    <button type="submit">Назад</button>
+</form>
 
 </body>
 </html>

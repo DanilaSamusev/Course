@@ -1,7 +1,15 @@
-#modifyWindow, #addWindow{
+.closeImage{
+    margin-left: 260px;
+}
+
+#modifyWindow, #deleteWindow{
+    text-align: center;
+}
+
+#modifyWindow{
     width: 300px;
-    height: 350px;
-    margin-left: 700px;
+    height: 400px;
+    margin-left: 1200px;
     display: none;
     background: #fff;
     position: fixed;
@@ -11,7 +19,7 @@
 
 #deleteWindow{
     width: 300px;
-    height: 250px;
+    height: 200px;
     margin-left: 1200px;
     display: none;
     background: #fff;
@@ -26,4 +34,26 @@ input{
     width: 250px;
     height: 25px;
     margin-left: 22px;
+    margin-top: 10px;
+}
+
+.deleteButton{
+    margin-top: 20px;
+}
+
+button{
+    display: inline;
+}
+
+.backButton{
+    margin-top: -35px;
+}
+
+.addButton{
+    margin-left: 944px;
+    margin-top: 10px;
+}
+
+.updateButton{
+    margin-top: 20px;
 }

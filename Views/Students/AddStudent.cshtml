@@ -9,6 +9,7 @@
 <head>
     <title>title</title>
     <link href="~/css/common.css" type="text/css" rel="stylesheet"/>
+    <link href="~/css/addStudent.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
 
@@ -16,32 +17,164 @@
 {
     <h1>@ratingError</h1>
 }
-
-<div id="addWindow">
-    <h1>Введите данные</h1>
+<form class="inputForm" method="post" action="~/Students/AddStudent">
+    <h1 class="mainH1">Данные студента</h1>
     <input type="hidden" id="modifyId" name="Id"/>
     <input placeholder="Группа" name="GroupNumber"/><br/>
     <input placeholder="Имя" name="Name"/><br/>
     <input placeholder="Фамилия" name="Surname"/><br/>
     <input placeholder="Отчество" name="Patronymic"/><br/>
 
-    <h1>Экзамены</h1>
-    <input placeholder="Философия" name="Philosophy"/><br/>
-    <input placeholder="Психология" name="Psychology"/><br/>
-    <input placeholder="Математика" name="Mathematics"/><br/>
-    <input placeholder="Физика" name="Physics"/><br/>
-    <input placeholder="Программирование" name="Programming"/><br/>
+    <input type="hidden" name="examsRating.StudentId"  ></input>        
 
-    <h1>Зачёты</h1>
-    <input placeholder="История" name="History"/><br/>
-    <input placeholder="Политология" name="Political_Science"/><br/>
-    <input placeholder="Физ. культура" name="PE"/><br/>
-    <input placeholder="Иностранный язык" name="Foreign_Language"/><br/>
-    <input placeholder="Химия" name="Chemistry"/><br/>
+        <h1 class="sideH1">Экзамены</h1>
+        <div>
+            <div class="select">
+                <input type="hidden" name="examsRating.rating[0].Key" value="philosophy">
+                Философия
 
-    <form method="post" action="~/Students/AddStudent">
-        <button class="submitButton" type="submit">Принять</button>
+                <select name="examsRating.rating[0].Value">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+
+            <div class="select">
+                <input type="hidden" name="examsRating.rating[1].Key" value="psychology">
+                Психология
+                <select name="examsRating.rating[1].Value">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+
+            <div class="select">
+                <input type="hidden" name="examsRating.rating[2].Key" value="mathematics">
+                Математика
+                <select name="examsRating.rating[2].Value">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+
+            <div class="select">
+                <input type="hidden" name="examsRating.rating[3].Key" value="physics">
+                Физика
+                <select name="examsRating.rating[3].Value">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+
+            <div class="select">
+                <input type="hidden" name="examsRating.rating[4].Key" value="programming">
+                Программирование
+                <select name="examsRating.rating[4].Value">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+        </div>
+
+        <input type="hidden" name="scoresRating.StudentId"  ></input>             
+        
+        <h1 class="sideH1">Зачёты</h1>
+        <div>
+            <input type="hidden" name="scoresRating.rating[0].Key" value="history">
+            <div class="select">
+                История
+                <select name="scoresRating.rating[0].Value">
+                    <option value="зачёт">зачёт</option>
+                    <option value="незачёт">незачёт</option>
+                </select>
+            </div>
+
+            <input type="hidden" name="scoresRating.rating[1].Key" value="political_science">
+            <div class="select">
+                Политология
+                <select name="scoresRating.rating[1].Value">
+                    <option value="зачёт">зачёт</option>
+                    <option value="незачёт">незачёт</option>
+                </select>
+            </div>
+
+            <input type="hidden" name="scoresRating.rating[2].Key" value="PE">
+            <div class="select">
+                Физ. культура
+                <select name="scoresRating.rating[2].Value">
+                    <option value="зачёт">зачёт</option>
+                    <option value="незачёт">незачёт</option>
+                </select>
+            </div>
+
+            <input type="hidden" name="scoresRating.rating[3].Key" value="foreign_language">
+            <div class="select">
+                Иностранный язык
+                <select name="scoresRating.rating[3].Value">
+                    <option value="зачёт">зачёт</option>
+                    <option value="незачёт">незачёт</option>
+                </select>
+            </div>
+
+            <input type="hidden" name="scoresRating.rating[4].Key" value="chemistry">
+            <div class="select">
+                Химия
+                <select name="scoresRating.rating[4].Value">
+                    <option value="зачёт">зачёт</option>
+                    <option value="незачёт">незачёт</option>
+                </select>
+            </div>
+        </div>
+        
+        <button class="submitButton" type="submit">Принять</button>             
     </form>
-</div>
+    
+    <button class="backButton" type="submit" onclick="history.back();">Назад</button>
+        
 </body>
 </html>

@@ -24,8 +24,7 @@ namespace AccountingSystem.Controllers
             _examsRatingValidator = examsRatingValidator;
             _scoresRatingValidator = scoresRatingValidator;
         }
-        
-        // Этот метод отображает отсортированный список студентов 
+                
         public IActionResult Students()
         {
             List<Student> students = GetStudentsFromSession();           
@@ -49,7 +48,7 @@ namespace AccountingSystem.Controllers
             return RedirectToAction("Students", "Students");
         }
 
-        public IActionResult ModifyStudent(Student student)
+        public IActionResult UpdateStudent(Student student)
         {            
             List<Student> students = GetStudentsFromSession();
 

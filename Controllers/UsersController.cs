@@ -12,7 +12,6 @@ namespace AccountingSystem.Controllers
     {
         private UserRepository _userRepository { get; set; }
         private Validator _validator { get; set; }
-
         private const string USERS = "users";
 
         public UsersController(UserRepository userRepository, Validator validator)
