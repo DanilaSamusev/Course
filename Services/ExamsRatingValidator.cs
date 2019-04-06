@@ -4,7 +4,7 @@ namespace AccountingSystem.Services
 {
     public class ExamsRatingValidator
     {
-        public bool ExamsRatingIsValid(ExamsRating examsRating)
+        public bool IsValid(ExamsRating examsRating)
         {
             foreach (var exam in examsRating.rating)
             {

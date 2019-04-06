@@ -9,13 +9,13 @@
 <head>
     <title>title</title>
     <link href="~/css/common.css" type="text/css" rel="stylesheet"/>
-    <link href="~/css/addStudent.css" type="text/css" rel="stylesheet"/>
+    <link href="~/css/Students/addStudent.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
 
 @if (ratingError != null)
 {
-    <h1>@ratingError</h1>
+    <h1 class="error">@ratingError</h1>
 }
 <form class="inputForm" method="post" action="~/Students/AddStudent">
     <h1 class="mainH1">Данные студента</h1>
@@ -23,9 +23,7 @@
     <input placeholder="Группа" name="GroupNumber"/><br/>
     <input placeholder="Имя" name="Name"/><br/>
     <input placeholder="Фамилия" name="Surname"/><br/>
-    <input placeholder="Отчество" name="Patronymic"/><br/>
-
-    <input type="hidden" name="examsRating.StudentId"  ></input>        
+    <input placeholder="Отчество" name="Patronymic"/><br/>    
 
         <h1 class="sideH1">Экзамены</h1>
         <div>
@@ -119,9 +117,7 @@
                     <option value="10">10</option>
                 </select>
             </div>
-        </div>
-
-        <input type="hidden" name="scoresRating.StudentId"  ></input>             
+        </div>             
         
         <h1 class="sideH1">Зачёты</h1>
         <div>
@@ -174,7 +170,9 @@
         <button class="submitButton" type="submit">Принять</button>             
     </form>
     
-    <button class="backButton" type="submit" onclick="history.back();">Назад</button>
-        
+<form action="~/Students/Students">
+    <button class="backButton" type="submit">Назад</button>
+</form>     
+
 </body>
 </html>

@@ -1,0 +1,39 @@
+@using AccountingSystem.Extensions
+@{
+    string error = Context.Session.Get<string>("userAddError");
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+    <link href="~/css/common.css" type="text/css" rel="stylesheet"/>
+    <link href="~/css/Users/addUser.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+
+@{
+    if (error != null)
+    {
+        <h1>@error</h1>
+    }
+}
+
+<form class="inputForm" method="post" action="~/Users/AddUser">
+    <h1>Введите данные</h1>
+    <input required placeholder="login" name="Login"/><br/>
+    <input required class="passwordInput" placeholder="password" name="Password"/><br/>
+    <select size="1" class="roleInput" name="Role">
+        <option value="user">user</option>
+        <option value="admin">admin</option>
+    </select><br/>
+    <button class="submitButton" type="submit">Принять</button>
+</form>
+
+<form method="get" action="~/Users/Users">
+    <button class="backButton" type="submit">Назад</button>
+</form>
+
+</body>
+</html>

@@ -7,7 +7,7 @@ namespace AccountingSystem.Services
         private const string SUCCESS = "зачёт";
         private const string FAIL = "незачёт";
         
-        public bool ScoresRatingIsValid(ScoresRating scoresRating)
+        public bool IsValid(ScoresRating scoresRating)
         {
             foreach (var pair in scoresRating.rating)
             {

@@ -2,7 +2,7 @@
 @using AccountingSystem.Extensions;
 @model List<User>
 @{
-    string error = Context.Session.Get<string>("resultError");
+    string error = Context.Session.Get<string>("userModifyError");
 }
 <!DOCTYPE html>
 
@@ -10,14 +10,15 @@
 <head>
     <title>Users</title>
     <link href="~/css/common.css" type="text/css" rel="stylesheet"/>
-    <link href="~/css/users.css" type="text/css" rel="stylesheet"/>   
+    <link href="~/css/Users/users.css" type="text/css" rel="stylesheet"/>
     <script src="~/js/users.js" type="text/javascript"></script>
 </head>
 <body>
 
-@if(error != null){
-    <div>        
-        <p>@error</p>
+@if (error != null)
+{
+    <div>
+        <h1>@error</h1>
     </div>
 }
 
@@ -27,21 +28,6 @@
 
     <form action="~/Users/ModifyUser">
         <input type="hidden" id="modifyId" name="Id"/>
-        <input required placeholder="login" name="Login"/><br/>
-        <input required class="passwordInput" placeholder="password" name="Password"/><br/>
-        <select size="1" class="roleInput" name="Role">
-            <option value="user">user</option>
-            <option value="admin">admin</option>
-        </select><br/>       
-        <button class="submitButton" type="submit">Принять</button>
-    </form>
-</div>
-
-<div id="addWindow">
-    <img class="closeImage" onclick="addUser('none')" src="~/images/close.png">
-    <h1>Введите данные</h1>
-
-    <form action="~/Users/AddUser">
         <input required placeholder="login" name="Login"/><br/>
         <input required class="passwordInput" placeholder="password" name="Password"/><br/>
         <select size="1" class="roleInput" name="Role">
@@ -61,6 +47,8 @@
         <button class="submitButton" type="submit">Принять</button>
     </form>
 </div>
+
+<h1 class="mainH1">Пользователи</h1>
 
 <div>
     <table>
@@ -87,13 +75,13 @@
 </div>
 
 <div>
-    <button onclick="addUser('block')">Добавить пользователя</button>
-</div>
+<form action="~/Menu/Menu">
+    <button class="backButton" type="submit">Назад</button>
+</form>
 
-<div>
-    <form action="~/Students/Students">
-        <button type="submit">Назад</button>
-    </form>
+<form method="get" action="~/Users/AddUser">
+    <button class="addUserButton" type="submit">Добавить пользователя</button>
+</form>
 </div>
 
 </body>

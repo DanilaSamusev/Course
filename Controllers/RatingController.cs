@@ -26,12 +26,11 @@ namespace AccountingSystem.Controllers
         }
         
         public IActionResult Rating(long studentId)
-        {
+        {                      
             List<Student> students = GetStudentsFromSession();
-
             Student currentStudent = students.FirstOrDefault(s => s.Id == studentId);
+            
             HttpContext.Session.Set("currentStudent", currentStudent);
-
             IDictionary<string, object> examsRating = _ratingRepository.GetExamsRating(currentStudent.Id);
             IDictionary<string, object> scoresRating = _ratingRepository.GetScoresRating(currentStudent.Id);           
             HttpContext.Session.Set("examsRating", examsRating);
@@ -50,13 +49,13 @@ namespace AccountingSystem.Controllers
         [HttpPost]
         public IActionResult ModifyRating(ExamsRating examsRating, ScoresRating scoresRating)
         {
-            if (!_examsRatingValidator.ExamsRatingIsValid(examsRating))
+            if (!_examsRatingValidator.IsValid(examsRating))
             {
                 HttpContext.Session.Set("error", "Ошибка! Отметка по экзамену должна быть числом, больше 1 и меньше 11");
                 return View("RatingError");
             }
 
-            if (!_scoresRatingValidator.ScoresRatingIsValid(scoresRating))
+            if (!_scoresRatingValidator.IsValid(scoresRating))
             {
                 HttpContext.Session.Set("error", "Ошибка! В поля зачётов должны вписываться \"зачёт\" или \"незачёт\"");
                 return View("RatingError");
