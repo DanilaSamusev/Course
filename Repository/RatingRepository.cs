@@ -22,13 +22,13 @@ namespace AccountingSystem.Repository
                 string strQuery = "Select " +
                                   "philosophy, psychology, mathematics, physics, programming from exams" +
                                   " where student_id = @studentId";
-                                                     
-                IDictionary<string, object> examsRating = connection.Query(strQuery, new {studentId}).SingleOrDefault();                
+
+                IDictionary<string, object> examsRating = connection.Query(strQuery, new {studentId}).SingleOrDefault();
 
                 return examsRating;
             }
         }
-        
+
         public IDictionary<string, object> GetScoresRating(long studentId)
         {
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -38,7 +38,8 @@ namespace AccountingSystem.Repository
                                   " from scores" +
                                   " where student_id = @studentId";
 
-                IDictionary<string, object> scoresRating =  connection.Query(strQuery, new {studentId}).SingleOrDefault();               
+                IDictionary<string, object>
+                    scoresRating = connection.Query(strQuery, new {studentId}).SingleOrDefault();
 
                 return scoresRating;
             }
@@ -52,7 +53,7 @@ namespace AccountingSystem.Repository
                                   " (student_id, philosophy, psychology, mathematics, physics, programming)" +
                                   " values" +
                                   " (@StudentId, @Philosophy, @Psychology, @Mathematics, @Physics, @Programming)";
-                
+
                 connection.Query(strQuery, examsRating);
             }
         }
@@ -68,6 +69,48 @@ namespace AccountingSystem.Repository
 
                 connection.Query(strQuery, scoresRating);
             }
+        }
+
+        public void Modify(ExamsRating examsRating, ScoresRating scoresRating)
+        {
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                string strExamsQuery = "Update exams set" + FormStrQuery(examsRating.rating, examsRating.StudentId);
+
+                string strScoresQuery = "Update scores set" + FormStrQuery(scoresRating.rating, scoresRating.StudentId);
+                
+                connection.Query(strExamsQuery, examsRating);
+                connection.Query(strScoresQuery, scoresRating);
+            }
+        }
+
+        private string FormStrQuery<T>(Dictionary<string, T> dictionary, long studentId)
+        {
+            string strQuery = "";
+
+            foreach (var pair in dictionary)
+            {
+                strQuery += " " + pair.Key + " = ";
+
+                if (pair.Value is string)
+                {
+                    strQuery += "'" + pair.Value + "',";
+                }
+                else
+                {
+                    strQuery += pair.Value + ",";
+                }
+            }
+
+            int a = strQuery.LastIndexOf(',');
+
+            strQuery = strQuery.Substring(0, a);            
+            
+            string conditionString = " where student_id = " + studentId;
+
+            strQuery += conditionString;
+            
+            return strQuery;
         }
     }
 }

@@ -12,8 +12,8 @@ namespace AccountingSystem.Controllers
     {
         private UserRepository _userRepository { get; set; }
         private Validator _validator { get; set; }
-
         private const string USERS = "users";
+        private const string USER_EXISTS = "Пользователь с таким логином уже существует!";
 
         public UsersController(UserRepository userRepository, Validator validator)
         {
@@ -44,16 +44,33 @@ namespace AccountingSystem.Controllers
         {
             List<User> users = GetUsersFromSession();
 
-            User oldUser = users.FirstOrDefault(u => u.Id == user.Id);
+            if (_validator.UserIsUnique(user ,users))
+            {
+                User oldUser = users.FirstOrDefault(u => u.Id == user.Id);
 
-            _userRepository.Modify(user);
-            users.Remove(oldUser);
-            users.Add(user);
-            HttpContext.Session.Set(USERS, users);
-
+                _userRepository.Modify(user);
+                users.Remove(oldUser);
+                users.Add(user);
+                HttpContext.Session.Set(USERS, users);    
+                HttpContext.Session.Set("userModifyError", "");
+            }
+            else
+            {
+                string modifyError = USER_EXISTS;
+                HttpContext.Session.Set("userModifyError", modifyError);
+            }
+            
             return RedirectToAction("Users", "Users");
         }
 
+        [HttpGet]
+        public IActionResult AddUser()
+        {        
+            HttpContext.Session.Set("userAddError", "");          
+            return View();
+        }
+        
+        [HttpPost]
         public IActionResult AddUser(User user)
         {
             List<User> users = GetUsersFromSession();
@@ -62,12 +79,14 @@ namespace AccountingSystem.Controllers
             {
                 _userRepository.Add(user);
                 users.Add(user);
-                HttpContext.Session.Set(USERS, users);              
+                HttpContext.Session.Set(USERS, users);
+                HttpContext.Session.Set("userAddError", "");              
             }
             else
             {
-                string error = "Пользователь с таким логином уже существует";
-                HttpContext.Session.Set("resultError", error);
+                string userAddError = USER_EXISTS;
+                HttpContext.Session.Set("userAddError", userAddError);
+                return View();
             }
             
             return RedirectToAction("Users", "Users");

@@ -1,10 +1,5 @@
 @model List<Student>
 @using AccountingSystem.Models
-@using AccountingSystem.Extensions
-
-@{
-    string ratingError = Context.Session.Get<string>("RatingError");
-}
 
 <!DOCTYPE html>
 
@@ -12,32 +7,34 @@
 <head>
     <title>Students</title>
     <link href="~/css/common.css" type="text/css" rel="stylesheet"/>
-    <link href="~/css/students.css" type="text/css" rel="stylesheet"/>
+    <link href="~/css/Students/students.css" type="text/css" rel="stylesheet"/>
     <script src="~/js/students.js" type="text/javascript"></script>
 </head>
 <body>
+
+<h1 class="mainH1">Успеваемость студентов</h1>
 
 <div id="modifyWindow">
     <img class="closeImage" onclick="modifyStudent('none')" src="~/images/close.png">
     <h1>Введите новые данные</h1>
 
-    <form action="~/Students/ModifyStudent">
+    <form action="~/Students/UpdateStudent">
         <input type="hidden" id="modifyId" name="Id"/>
         <input placeholder="Группа" name="GroupNumber"/><br/>
         <input placeholder="Имя" name="Name"/><br/>
         <input placeholder="Фамилия" name="Surname"/><br/>
         <input placeholder="Отчество" name="Patronymic"/><br/>
-        <button class="submitButton" type="submit">Принять</button>
+        <button class="updateButton" type="submit">Принять</button>
     </form>
 </div>
 
 <div id="deleteWindow">
-    <img class="close" onclick="deleteStudent('none')" src="~/images/close.png">
+    <img class="closeImage" onclick="deleteStudent('none')" src="~/images/close.png">
     <h1>Вы уверены?</h1>
 
     <form action="~/Students/DeleteStudent">
         <input type="hidden" id="deleteId" name="Id"/>
-        <button class="accept" type="submit">Принять</button>
+        <button class="deleteButton" type="submit">Принять</button>
     </form>
 </div>
 
@@ -59,33 +56,29 @@
                 <td>@student.Patronymic</td>
                 <td>@student.Debts</td>
                 <td>
-                    <form action="~/Students/Rating">
+                    <form action="~/Rating/Rating">
                         <input type="hidden" name="studentId" value=@student.Id />
                         <button type="submit">Успеваемость</button>
                     </form>
                 </td>
                 <td>
-                    <button onclick="modifyStudent('block', @student.Id)">Редактировать</button>
+                    <button onclick="modifyStudent('block', @student.Id )">Редактировать</button>
                 </td>
                 <td>
-                    <button onclick="deleteStudent('block', @student.Id)">Удалить</button>
+                    <button onclick="deleteStudent('block', @student.Id )">Удалить</button>
                 </td>
             </tr>
         }
     </table>
 </div>
 
-<div>
-    <form method="get" action="~/Students/AddStudent">
-        <button type="submit">Добавить студента</button>
-    </form>
-</div>
+<form class="addButton" method="get" action="~/Students/AddStudent">
+    <button type="submit">Добавить студента</button>
+</form>
 
-<div>
-    <form action="~/Menu/Menu">
-        <button type="submit">Назад</button>
-    </form>
-</div>
+<form class="backButton" action="~/Menu/Menu">
+    <button type="submit">Назад</button>
+</form>
 
 </body>
 </html>

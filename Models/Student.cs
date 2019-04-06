@@ -6,11 +6,10 @@ namespace AccountingSystem.Models
     {        
         public long Id { get; set; }
         public int GroupNumber { get; set; }
-        public string Name { get; set; }
         public string Surname { get; set; }
+        public string Name { get; set; }
         public string Patronymic { get; set; }
         public int Debts { get; set; }
-
 
         public int CompareTo(Student student)
         {
@@ -18,10 +17,8 @@ namespace AccountingSystem.Models
             {
                 return 1;
             }
-            else
-            {
-                return this.Debts.CompareTo(student.Debts);
-            }            
+            
+            return this.Debts.CompareTo(student.Debts);                    
         }
     }
 }

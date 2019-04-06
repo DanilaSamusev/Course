@@ -2,10 +2,19 @@ h1 {
     text-align: center;
 }
 
-#modifyWindow, #addWindow{
+.mainH1{
+    text-align: center;
+    margin-top: 230px;
+}
+
+table{
+    margin: auto;
+}
+
+#modifyWindow{
     width: 300px;
     height: 350px;
-    margin-left: 700px;
+    margin-left: 1300px;
     display: none;
     background: #fff;
     position: fixed;
@@ -16,7 +25,7 @@ h1 {
 #deleteWindow{
     width: 300px;
     height: 250px;
-    margin-left: 700px;
+    margin-left: 1300px;
     display: none;
     background: #fff;
     position: fixed;
@@ -49,4 +58,20 @@ input, .roleInput {
 .submitButton {
     margin-top: 15px;
     margin-left: 110px;
+}
+
+.addUserButton, .backButton{
+    margin-top: 10px;
+}
+
+.addUserButton{
+    margin-left: 240px;
+}
+
+.backButton{
+    margin-left: 670px;
+}
+
+form{
+    display: inline;
 }

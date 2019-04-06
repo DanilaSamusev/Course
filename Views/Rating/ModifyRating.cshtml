@@ -1,6 +1,6 @@
 @using AccountingSystem.Extensions
 @{
-    string ratingError = Context.Session.Get<string>("RatingError");
+    long studentId = Context.Session.Get<long>("currentStudentId");    
 }
 
 <!DOCTYPE html>
@@ -9,23 +9,15 @@
 <head>
     <title>title</title>
     <link href="~/css/common.css" type="text/css" rel="stylesheet"/>
-    <link href="~/css/Students/addStudent.css" type="text/css" rel="stylesheet"/>
+    <link href="~/css/modifyRating.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
+<div>
+    <form class="inputForm" method="post" action="~/Rating/ModifyRating">
+        
+        <input type="hidden" name="examsRating.StudentId" value=@studentId ></input>        
 
-@if (ratingError != null)
-{
-    <h1 class="error">@ratingError</h1>
-}
-<form class="inputForm" method="post" action="~/Students/AddStudent">
-    <h1 class="mainH1">Данные студента</h1>
-    <input type="hidden" id="modifyId" name="Id"/>
-    <input placeholder="Группа" name="GroupNumber"/><br/>
-    <input placeholder="Имя" name="Name"/><br/>
-    <input placeholder="Фамилия" name="Surname"/><br/>
-    <input placeholder="Отчество" name="Patronymic"/><br/>    
-
-        <h1 class="sideH1">Экзамены</h1>
+        <h1>Экзамены</h1>
         <div>
             <div class="select">
                 <input type="hidden" name="examsRating.rating[0].Key" value="philosophy">
@@ -117,9 +109,11 @@
                     <option value="10">10</option>
                 </select>
             </div>
-        </div>             
+        </div>
+
+        <input type="hidden" name="scoresRating.StudentId" value=@studentId ></input>             
         
-        <h1 class="sideH1">Зачёты</h1>
+        <h1>Зачёты</h1>
         <div>
             <input type="hidden" name="scoresRating.rating[0].Key" value="history">
             <div class="select">
@@ -170,9 +164,8 @@
         <button class="submitButton" type="submit">Принять</button>             
     </form>
     
-<form action="~/Students/Students">
-    <button class="backButton" type="submit">Назад</button>
-</form>     
-
+    <button class="backButton" type="submit" onclick="history.back();">Назад</button>
+    
+</div>
 </body>
 </html>

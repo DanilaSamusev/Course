@@ -46,6 +46,9 @@ namespace AccountingSystem
             services.AddSingleton<StudentRepository>(sr => new StudentRepository(connectionString));
             services.AddSingleton<RatingRepository>(rr => new RatingRepository(connectionString));
             services.AddSingleton<Validator>();
+            services.AddSingleton<ExamsRatingValidator>();
+            services.AddSingleton<ScoresRatingValidator>();
+            services.AddSingleton<StudentValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
