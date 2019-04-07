@@ -1,0 +1,29 @@
+@using AccountingSystem.Extensions
+@{
+    string error = Context.Session.Get<string>("studentsError");
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+    <link href="~/css/common.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+
+@if (error != null)
+{
+    <h1>@error</h1>   
+}
+else
+{
+    <h1>No information!</h1>
+}
+
+<form action="~/Students/Students">
+    <button class="backButton" type="submit">Назад</button>
+</form>
+
+</body>
+</html>

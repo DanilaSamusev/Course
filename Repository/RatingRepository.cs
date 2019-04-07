@@ -52,7 +52,7 @@ namespace AccountingSystem.Repository
                 string strQuery = "Insert into exams" +
                                   " (student_id, philosophy, psychology, mathematics, physics, programming)" +
                                   " values" +
-                                  " (@StudentId, @Philosophy, @Psychology, @Mathematics, @Physics, @Programming)";
+                                  FormStrQueryForInsert(examsRating.rating, examsRating.StudentId);
 
                 connection.Query(strQuery, examsRating);
             }
@@ -65,7 +65,7 @@ namespace AccountingSystem.Repository
                 string strQuery = "Insert into scores" +
                                   " (student_id, history, political_science, PE, foreign_language, chemistry)" +
                                   " values" +
-                                  " (@StudentId, @History, @PoliticalScience, @PE, @ForeignLanguage, @Chemistry)";
+                                  FormStrQueryForInsert(scoresRating.rating, scoresRating.StudentId);
 
                 connection.Query(strQuery, scoresRating);
             }
@@ -75,16 +75,16 @@ namespace AccountingSystem.Repository
         {
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
-                string strExamsQuery = "Update exams set" + FormStrQuery(examsRating.rating, examsRating.StudentId);
+                string strExamsQuery = "Update exams set" + FormStrQueryForModify(examsRating.rating, examsRating.StudentId);
 
-                string strScoresQuery = "Update scores set" + FormStrQuery(scoresRating.rating, scoresRating.StudentId);
+                string strScoresQuery = "Update scores set" + FormStrQueryForModify(scoresRating.rating, scoresRating.StudentId);
                 
                 connection.Query(strExamsQuery, examsRating);
                 connection.Query(strScoresQuery, scoresRating);
             }
         }
 
-        private string FormStrQuery<T>(Dictionary<string, T> dictionary, long studentId)
+        private string FormStrQueryForModify<T>(Dictionary<string, T> dictionary, long studentId)
         {
             string strQuery = "";
 
@@ -109,6 +109,31 @@ namespace AccountingSystem.Repository
             string conditionString = " where student_id = " + studentId;
 
             strQuery += conditionString;
+            
+            return strQuery;
+        }
+
+        private string FormStrQueryForInsert<T>(Dictionary<string, T> dictionary, long studentId)
+        {
+            string strQuery = "(" + studentId + ",";
+            
+            foreach (var pair in dictionary)
+            {                
+                if (pair.Value is string)
+                {
+                    strQuery += "'" + pair.Value + "',";
+                }
+                else
+                {
+                    strQuery += pair.Value + ",";
+                }                                                                                                                                 
+            }
+            
+            int a = strQuery.LastIndexOf(',');
+
+            strQuery = strQuery.Substring(0, a);  
+            
+            strQuery += ")";   
             
             return strQuery;
         }

@@ -72,12 +72,27 @@
     </table>
 </div>
 
-<form class="addButton" method="get" action="~/Students/AddStudent">
-    <button type="submit">Добавить студента</button>
+<form class="searchForm" action="~/Students/Search">
+    Поиск по
+    <select name="option">
+        <option value="sortByDebts">количеству задолжностей:</option>
+        <option value="sortByGroup">группе:</option>
+        <option value="sortBySurname">фамилии:</option>
+    </select>
+    <input placeholder="Поиск..." name="value"></input>
+    <button class="searchButton" type="submit">Поиск</button>
 </form>
 
-<form class="backButton" action="~/Menu/Menu">
-    <button type="submit">Назад</button>
+<form class="menuForm" action="~/Menu/Menu">
+    <button class="menuButton" type="submit">В меню</button>
+</form>
+
+<form class="resetForm" action="~/Students/ResetSearch">
+    <button class="resetButton" type="submit">Сброс поиска</button>
+</form>
+
+<form class="addForm" method="get" action="~/Students/AddStudent">
+    <button class="addButton" type="submit">Добавить студента</button>
 </form>
 
 </body>

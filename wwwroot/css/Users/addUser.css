@@ -12,11 +12,6 @@ input{
 }
 
 select{
-    font-style: oblique;
-    background-color: #e5e5e5;
-    width: 200px;
-    height: 25px;
-    margin-top: 10px;
     margin-left: 45px;
 }
 

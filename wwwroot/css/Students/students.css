@@ -41,23 +41,40 @@ input{
     margin-top: 10px;
 }
 
-.deleteButton{
-    margin-top: 20px;
-}
-
 button{
     display: inline;
 }
 
-.backButton{
-    margin-top: -35px;
-}
-
-.addButton{
-    margin-left: 944px;
-    margin-top: 10px;
+.deleteButton{
+    margin-top: 20px;
 }
 
 .updateButton{
     margin-top: 20px;
+}
+
+.searchForm{
+    margin-top: 10px;
+    width: 665px;
+}
+
+.searchButton{
+    margin-left: 20px;
+}
+
+.menuForm, .resetForm, .addForm{
+    display: inline;
+}
+
+.addButton{
+    margin-left: 125px;
+    margin-top: 10px;
+}
+
+.resetButton{
+    margin-left: 160px;
+}
+
+select{
+    margin-bottom: 10px;
 }
