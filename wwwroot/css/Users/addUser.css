@@ -12,18 +12,13 @@ input{
 }
 
 select{
-    font-style: oblique;
-    background-color: #e5e5e5;
-    width: 200px;
-    height: 25px;
-    margin-top: 10px;
     margin-left: 45px;
 }
 
 .inputForm{
     position: fixed; left: 40%;
     width: 300px;
-    margin-top: 2%;
+    margin-top: 13%;
 }
 
 .submitButton{
@@ -33,6 +28,6 @@ select{
 }
 
 .backButton{
-    margin-top: 330px;
-    margin-left: 845px;
+    margin-top: 530px;
+    margin-left: 850px;
 }

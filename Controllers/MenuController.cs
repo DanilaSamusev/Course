@@ -11,6 +11,5 @@ namespace AccountingSystem.Controllers
             return View();            
         }       
                 
-
     }
 }

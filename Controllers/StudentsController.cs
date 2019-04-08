@@ -28,14 +28,33 @@ namespace AccountingSystem.Controllers
             _scoresRatingValidator = scoresRatingValidator;
             _studentValidator = studentValidator;
         }
-
+       
         public IActionResult Students()
         {
             List<Student> students = GetStudentsFromSession();
+            List<Student> requiredStudents = HttpContext.Session.Get<List<Student>>("requiredStudents"); 
+            
+            bool searchIsActive = HttpContext.Session.Get<bool>("searchIsActive");
 
+            if (requiredStudents == null || requiredStudents.Count == 0)
+            {
+                if (searchIsActive)
+                {
+                    HttpContext.Session.Set("studentsError", "По вашему запросу ничего не найдено");
+                    HttpContext.Session.Set("requiredStudents", new List<Student>());
+                    HttpContext.Session.Set("searchIsActive", false);
+                    return RedirectToAction("StudentsError", "Students");                  
+                }               
+            }
+            else
+            {
+                FillRating(requiredStudents);
+                requiredStudents.Sort();
+                return View(requiredStudents);
+            }                     
+            
             FillRating(students);
             students.Sort();
-
             return View(students);
         }
 
@@ -48,7 +67,9 @@ namespace AccountingSystem.Controllers
             _studentRepository.Delete(student.Id);
             students.Remove(student);
             HttpContext.Session.Set(STUDENTS, students);
-
+            HttpContext.Session.Set("requiredStudents", new List<Student>());
+            HttpContext.Session.Set("searchIsActive", false);
+            
             return RedirectToAction("Students", "Students");
         }
 
@@ -62,6 +83,8 @@ namespace AccountingSystem.Controllers
             students.Remove(oldStudent);
             students.Add(student);
             HttpContext.Session.Set(STUDENTS, students);
+            HttpContext.Session.Set("requiredStudents", new List<Student>());
+            HttpContext.Session.Set("searchIsActive", false);
 
             return RedirectToAction("Students", "Students");
         }
@@ -89,6 +112,8 @@ namespace AccountingSystem.Controllers
             _ratingRepository.AddExamRating(examsRating);
             _ratingRepository.AddScoreRating(scoresRating);
             HttpContext.Session.Set("RatingError", "");
+            HttpContext.Session.Set("requiredStudents", new List<Student>());
+            HttpContext.Session.Set("searchIsActive", false);
 
             return RedirectToAction("Students", "Students");
         }
@@ -107,9 +132,88 @@ namespace AccountingSystem.Controllers
 
                 debts += examsDebts + scoresDebts;
                 student.Debts = debts;
-            }
+            }            
         }
 
+        public IActionResult Search(string option, string value)
+        {            
+            List<Student> requiredStudents;
+            List<Student> students = GetStudentsFromSession();
+            
+            switch (option)
+            {
+                case "sortByDebts":
+                {
+                    int debts;
+                    
+                    try
+                    {
+                        debts = ParseStringToInt(value);
+                    }
+                    catch
+                    {
+                        HttpContext.Session.Set("studentsError", "Некорректные данные");
+                        HttpContext.Session.Set("requiredStudents", new List<Student>());
+                        HttpContext.Session.Set("searchIsActive", false);
+                        return RedirectToAction("StudentsError", "Students");
+                    }
+                    
+                    FillRating(students);
+                    requiredStudents = students.Where(s => s.Debts == debts).ToList();
+                    HttpContext.Session.Set("requiredStudents", requiredStudents);
+                    HttpContext.Session.Set("searchIsActive", true);
+                    return RedirectToAction("Students", "Students");                    
+                }
+                case "sortByGroup":
+                {
+                    int groupNumber;
+                    
+                    try
+                    {
+                        groupNumber = ParseStringToInt(value);
+                    }
+                    catch
+                    {
+                        HttpContext.Session.Set("studentsError", "Некорректные данные");
+                        HttpContext.Session.Set("requiredStudents", new List<Student>());
+                        HttpContext.Session.Set("searchIsActive", false);
+                        return RedirectToAction("StudentsError", "Students");
+                    }
+                    requiredStudents = students.Where(s => s.GroupNumber == groupNumber).ToList();
+                    HttpContext.Session.Set("requiredStudents", requiredStudents);
+                    HttpContext.Session.Set("searchIsActive", true);
+                    return RedirectToAction("Students", "Students");       
+                }
+                case "sortBySurname":
+                {
+                    string surname = value;
+                    requiredStudents = students.Where(s => s.Surname == surname).ToList();
+                    HttpContext.Session.Set("requiredStudents", requiredStudents);
+                    HttpContext.Session.Set("searchIsActive", true);
+                    return RedirectToAction("Students", "Students");      
+                }                                                             
+            }
+            
+            return RedirectToAction("Students", "Students");
+        }
+
+        public IActionResult ResetSearch()
+        {
+            HttpContext.Session.Set("requiredStudents", new List<Student>());
+            HttpContext.Session.Set("searchIsActive", false);
+            return RedirectToAction("Students", "Students");    
+        }
+        
+        private int ParseStringToInt(string str)
+        {
+            return int.Parse(str);
+        }
+
+        public IActionResult StudentsError(string errorMessage)
+        {
+            return View(errorMessage);
+        }
+        
         private List<Student> GetStudentsFromSession()
         {
             List<Student> students = HttpContext.Session.Get<List<Student>>(STUDENTS);

@@ -1,0 +1,29 @@
+.usersImage{
+    display: none;
+}
+
+.image{
+    display: none;
+}
+
+h1 {
+    text-align: center;
+}
+
+img {
+    margin-left: 850px;
+    margin-top: 220px;
+    width: 200px;
+}
+
+.usersImage {
+    margin-left: 70px;
+}
+
+form {
+    display: inline;
+}
+
+button {
+    margin-left: 900px;
+}
