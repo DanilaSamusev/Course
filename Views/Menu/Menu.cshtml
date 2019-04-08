@@ -1,10 +1,21 @@
+@using AccountingSystem.Extensions
+@using AccountingSystem.Models
+@{
+    User user = Context.Session.Get<User>("user");
+}
 <!DOCTYPE html>
 
 <html>
 <head>
     <title>Menu</title>
     <link href="~/css/common.css" type="text/css" rel="stylesheet" />
-    <link href="~/css/menu.css" type="text/css" rel="stylesheet" />
+    @if(user.Role == "admin"){
+        <link href="~/css/adminMenu.css" type="text/css" rel="stylesheet" />
+    }
+    else
+    {
+        <link href="~/css/userMenu.css" type="text/css" rel="stylesheet" />
+    }
 </head>
 <body>
 
@@ -12,9 +23,9 @@
 
 <hr></hr>
 
-<div>
+<div>    
     <img src="~/images/Students.png"></img>
-    <img src="~/images/Users.png"></img>
+    <img class="image" src="~/images/Users.png"></img>
 </div>
 
 <div>

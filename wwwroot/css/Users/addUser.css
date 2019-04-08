@@ -18,7 +18,7 @@ select{
 .inputForm{
     position: fixed; left: 40%;
     width: 300px;
-    margin-top: 2%;
+    margin-top: 13%;
 }
 
 .submitButton{
@@ -28,6 +28,6 @@ select{
 }
 
 .backButton{
-    margin-top: 330px;
-    margin-left: 845px;
+    margin-top: 530px;
+    margin-left: 850px;
 }

@@ -68,7 +68,7 @@ namespace AccountingSystem
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Authentication}/{action=Login}/{id?}");
+                    template: "{controller=Preview}/{action=Preview}/{id?}");
             });
         }
     }
