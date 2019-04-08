@@ -9,6 +9,7 @@
 <head>
     <title>Menu</title>
     <link href="~/css/common.css" type="text/css" rel="stylesheet" />
+    <link href="~/css/Menu/commonMenu.css" type="text/css" rel="stylesheet" />
     @if(user.Role == "admin"){
         <link href="~/css/Menu/adminMenu.css" type="text/css" rel="stylesheet" />
     }
@@ -19,22 +20,22 @@
 </head>
 <body>
 
-<h1>Menu</h1>
+<h1>Меню</h1>
 
 <hr></hr>
 
 <div>    
-    <img src="~/images/Students.png"></img>
-    <img class="image" src="~/images/Users.png"></img>
+    <img class="studentImage" src="~/images/Students.png"></img>
+    <img class="userImage" src="~/images/Users.png"></img>
 </div>
 
 <div>
-    <form action="~/Students/Students">
-        <button>Students</button>
+    <form class="studentButton" action="~/Students/Students">
+        <button>К студентам</button>
     </form>
     
-    <form class="usersImage" action="~/Users/Users">
-        <button>Users</button>
+    <form class="userButton" action="~/Users/Users">
+        <button>К пользователям</button>
     </form>
 </div>
 

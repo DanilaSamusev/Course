@@ -30,7 +30,7 @@ namespace AccountingSystem.Controllers
 
             if (user == null)
             {
-                model.AuthenticationError = "Пользователь не найден";
+                model.AuthenticationError = "Пользователь не найден!";
                 return View(model);
             }
 

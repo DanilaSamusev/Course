@@ -16,10 +16,14 @@
 </div>
 
 <div>
-    <form method="post" action="~/Authentication/Login">   
+    <form class="loginForm" method="post" action="~/Authentication/Login">   
         @if (Model != null && Model.AuthenticationError != null)
         {
-            <p>@Model.AuthenticationError</p>
+            <p class="autMessage">@Model.AuthenticationError</p>
+        }
+        else
+        {
+            <p class="autMessage">Введите данные</p>
         }
         <input placeholder="login" name="login" />       
         <input required class="input2" placeholder="password" type="password" name="password"/>        
