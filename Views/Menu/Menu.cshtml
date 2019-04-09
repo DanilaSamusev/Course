@@ -8,14 +8,15 @@
 <html>
 <head>
     <title>Menu</title>
-    <link href="~/css/common.css" type="text/css" rel="stylesheet" />
-    <link href="~/css/Menu/commonMenu.css" type="text/css" rel="stylesheet" />
-    @if(user.Role == "admin"){
-        <link href="~/css/Menu/adminMenu.css" type="text/css" rel="stylesheet" />
+    <link href="~/css/common.css" type="text/css" rel="stylesheet"/>
+    <link href="~/css/Menu/commonMenu.css" type="text/css" rel="stylesheet"/>
+    @if (user.Role == "admin")
+    {
+        <link href="~/css/Menu/adminMenu.css" type="text/css" rel="stylesheet"/>
     }
     else
     {
-        <link href="~/css/Menu/userMenu.css" type="text/css" rel="stylesheet" />
+        <link href="~/css/Menu/userMenu.css" type="text/css" rel="stylesheet"/>
     }
 </head>
 <body>
@@ -24,21 +25,27 @@
 
 <hr></hr>
 
-<div>    
+<div>
     <img class="studentImage" src="~/images/Students.png"></img>
     <img class="userImage" src="~/images/Users.png"></img>
 </div>
 
-<div>
-    <form class="studentButton" action="~/Students/Students">
-        <button>К студентам</button>
-    </form>
-    
-    <form class="userButton" action="~/Users/Users">
-        <button>К пользователям</button>
-    </form>
-</div>
+<form class="studentButton" action="~/Students/Students">
+    <button>К студентам</button>
+</form>
 
+<form class="userButton" action="~/Users/Users">
+    <button>К пользователям</button>
+</form>
+
+
+<form class="helpButton" action="~/Menu/Help">
+    <button type="submit">Помощь</button>
+</form>
+
+<form class="logoutButton" action="~/Authentication/Login">
+    <button type="submit">Выйти</button>
+</form>
 
 </body>
 </html>

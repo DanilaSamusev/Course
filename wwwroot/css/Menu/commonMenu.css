@@ -10,3 +10,8 @@ img {
 button {
     margin-top: 10px;
 }
+
+.helpButton, .logoutButton {
+    text-align: center;
+    margin-top: 20px;
+}

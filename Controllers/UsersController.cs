@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AccountingSystem.Repository;
@@ -80,7 +81,7 @@ namespace AccountingSystem.Controllers
                 _userRepository.Add(user);
                 users.Add(user);
                 HttpContext.Session.Set(USERS, users);
-                HttpContext.Session.Set("userAddError", "");              
+                HttpContext.Session.Set("userAddError", "");                  
             }
             else
             {
@@ -89,7 +90,7 @@ namespace AccountingSystem.Controllers
                 return View();
             }
             
-            return RedirectToAction("Users", "Users");
+            return Redirect("~/Views/Users/UsersResult.cshtml");
         }
         
         private List<User> GetUsersFromSession()
