@@ -1,6 +1,6 @@
 @using AccountingSystem.Extensions
 @{
-    string error = Context.Session.Get<string>("studentsError");
+    string error = Context.Session.Get<string>("error");
 }
 
 <!DOCTYPE html>
@@ -15,10 +15,6 @@
 @if (error != null)
 {
     <h1>@error</h1>   
-}
-else
-{
-    <h1>No information!</h1>
 }
 
 <form action="~/Students/Students">
