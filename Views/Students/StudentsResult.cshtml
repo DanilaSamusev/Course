@@ -1,7 +1,4 @@
-@using AccountingSystem.Extensions
-@{
-    string error = Context.Session.Get<string>("error");
-}
+@model string;
 
 <!DOCTYPE html>
 
@@ -12,10 +9,7 @@
 </head>
 <body>
 
-@if (error != null)
-{
-    <h1>@error</h1>   
-}
+<h1>@Model</h1>
 
 <form action="~/Students/Students">
     <button class="backButton" type="submit">Назад</button>

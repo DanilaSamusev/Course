@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using AccountingSystem.Repository;
@@ -38,7 +37,7 @@ namespace AccountingSystem.Controllers
             users.Remove(user);
             HttpContext.Session.Set(USERS, users);
 
-            return RedirectToAction("Users", "Users");
+            return RedirectToAction("UsersResult", "Users", new {message = "Пользователь успешно удалён"});
         }
 
         public IActionResult ModifyUser(User user)
@@ -61,7 +60,7 @@ namespace AccountingSystem.Controllers
                 HttpContext.Session.Set("userModifyError", modifyError);
             }
             
-            return RedirectToAction("Users", "Users");
+            return RedirectToAction("UsersResult", "Users", new {message = "Пользователь успешно обновлён"});
         }
 
         [HttpGet]
@@ -89,8 +88,13 @@ namespace AccountingSystem.Controllers
                 HttpContext.Session.Set("userAddError", userAddError);
                 return View();
             }
-            
-            return Redirect("~/Views/Users/UsersResult.cshtml");
+
+            return RedirectToAction("UsersResult", "Users", new {message = "Пользователь успешно добавлен"});
+        }
+
+        public IActionResult UsersResult(string message)
+        {
+            return View(model: message);
         }
         
         private List<User> GetUsersFromSession()
