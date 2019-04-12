@@ -31,7 +31,7 @@ namespace AccountingSystem.Controllers
        
         public IActionResult Students()
         {
-            List<Student> students = GetStudentsFromSession();
+            List<Student> students = GetStudentsFromSessionOrDb();
             List<Student> requiredStudents = HttpContext.Session.Get<List<Student>>("requiredStudents");             
             bool searchIsActive = HttpContext.Session.Get<bool>("searchIsActive");
 
@@ -41,7 +41,7 @@ namespace AccountingSystem.Controllers
                 {
                     HttpContext.Session.Set("studentsError", "По вашему запросу ничего не найдено");
                     ResetSearch();
-                    return RedirectToAction("StudentsError", "Students");                  
+                    return RedirectToAction("StudentsResult", "Students", new {message = "По вашему запросу ничего не найдено"});                  
                 }               
             }
             else
@@ -58,7 +58,7 @@ namespace AccountingSystem.Controllers
 
         public IActionResult DeleteStudent(long id)
         {
-            List<Student> students = GetStudentsFromSession();
+            List<Student> students = GetStudentsFromSessionOrDb();
 
             Student student = students.FirstOrDefault(s => s.Id == id);
 
@@ -71,7 +71,7 @@ namespace AccountingSystem.Controllers
 
         public IActionResult UpdateStudent(Student student)
         {
-            List<Student> students = GetStudentsFromSession();
+            List<Student> students = GetStudentsFromSessionOrDb();
 
             Student oldStudent = students.FirstOrDefault(s => s.Id == student.Id);
 
@@ -111,7 +111,7 @@ namespace AccountingSystem.Controllers
             return ResetSearch();            
         }
 
-        public IActionResult StudentsError(string errorMessage)
+        public IActionResult StudentsResult(string errorMessage)
         {
             return View(errorMessage);
         }
@@ -136,7 +136,7 @@ namespace AccountingSystem.Controllers
         public IActionResult Search(string option, string value)
         {            
             List<Student> requiredStudents;
-            List<Student> students = GetStudentsFromSession();
+            List<Student> students = GetStudentsFromSessionOrDb();
             
             switch (option)
             {
@@ -208,7 +208,7 @@ namespace AccountingSystem.Controllers
             return int.Parse(str);
         }        
         
-        private List<Student> GetStudentsFromSession()
+        private List<Student> GetStudentsFromSessionOrDb()
         {
             List<Student> students = HttpContext.Session.Get<List<Student>>(STUDENTS);
 
