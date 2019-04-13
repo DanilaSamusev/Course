@@ -12,8 +12,13 @@
 </head>
 <body>
 
-<h1 class="mainH1">Успеваемость студентов</h1>
-
+@if (Model == null)
+{
+    <h1 class="noDataMessage">Нет данных</h1>
+}
+else{
+    <h1 class="mainH1">Успеваемость студентов</h1>
+    
 <div id="modifyWindow">
     <img class="closeImage" onclick="modifyStudent('none')" src="~/images/close.png">
     <h1>Введите новые данные</h1>
@@ -71,6 +76,7 @@
         }
     </table>
 </div>
+}
 
 <form class="searchForm" action="~/Students/Search">
     Поиск по
