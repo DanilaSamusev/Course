@@ -18,9 +18,7 @@ namespace AccountingSystem
         
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
-            
-            string connectionString = Configuration.GetConnectionString("ConnectionString");
+            Configuration = configuration;                      
             
             using (MySqlConnection connection = new MySqlConnection("server=localhost;user=root;database=student_rating_base;password=1234;"))
             {        

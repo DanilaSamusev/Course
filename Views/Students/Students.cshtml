@@ -12,7 +12,7 @@
 </head>
 <body>
 
-@if (Model == null)
+@if (Model == null || Model.Count == 0)
 {
     <h1 class="noDataMessage">Нет данных</h1>
 }

@@ -111,9 +111,9 @@ namespace AccountingSystem.Controllers
             return ResetSearch();            
         }
 
-        public IActionResult StudentsResult(string errorMessage)
+        public IActionResult StudentsResult(string message)
         {
-            return View(errorMessage);
+            return View(model: message);
         }
         
         private void FillRating(List<Student> students)
