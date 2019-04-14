@@ -9,7 +9,11 @@ namespace AccountingSystem.Controllers
         public IActionResult Menu()
         {
             return View();            
-        }       
-                
+        }
+
+        public IActionResult Help()
+        {
+            return View();
+        }
     }
 }
