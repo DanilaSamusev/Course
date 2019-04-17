@@ -6,7 +6,7 @@ using AccountingSystem.Models;
 
 namespace AccountingSystem.Repository
 {
-    public class RatingRepository
+    public class RatingRepository : IRatingRepository
     {
         private string ConnectionString { get; set; }
 

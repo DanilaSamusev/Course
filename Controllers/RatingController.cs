@@ -11,12 +11,12 @@ namespace AccountingSystem.Controllers
     public class RatingController : Controller
     {
         private StudentRepository _studentRepository { get; set; }
-        private RatingRepository _ratingRepository { get; set; }
+        private IRatingRepository _ratingRepository { get; set; }
         private ExamsRatingValidator _examsRatingValidator { get; set; }
         private ScoresRatingValidator _scoresRatingValidator { get; set; }
         private const string STUDENTS = "students";
         
-        public RatingController(RatingRepository ratingRepository, StudentRepository studentRepository,
+        public RatingController(IRatingRepository ratingRepository, StudentRepository studentRepository,
             ExamsRatingValidator examsValidator, ScoresRatingValidator scoresRatingValidator)
         {
             _ratingRepository = ratingRepository;
