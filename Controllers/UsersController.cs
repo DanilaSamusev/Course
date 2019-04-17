@@ -23,6 +23,13 @@ namespace AccountingSystem.Controllers
 
         public IActionResult Users()
         {
+            User user = HttpContext.Session.Get<User>("user");
+
+            if (user.Role != "admin")
+            {
+                return View("AccessError");
+            }
+            
             List<User> users = GetUsersFromSession();
                      
             return View(users);
