@@ -6,7 +6,7 @@ using MySql.Data.MySqlClient;
 
 namespace AccountingSystem.Repository
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
 
         private string ConnectionString { get; set; }
@@ -14,19 +14,6 @@ namespace AccountingSystem.Repository
         public UserRepository(string connectionString)
         {
             ConnectionString = connectionString;
-        }
-
-        public User GetOne(string login, int password)
-        {
-            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-            {
-                string strQuery = "Select * from users" +
-                                  " where login = @login and password = @password";
-
-                User user = connection.Query<User>(strQuery, new {login, password}).FirstOrDefault();
-
-                return user;
-            }            
         }
 
         public List<User> GetAll()
@@ -40,18 +27,20 @@ namespace AccountingSystem.Repository
                 return users;
             }
         }
-
-        public void Delete(long userId)
+     
+        public User GetOneByLoginAndPassword(string login, int password)
         {
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
-                string strQuery = "Delete from users" +
-                                  " where id = @userId";
+                string strQuery = "Select * from users" +
+                                  " where login = @login and password = @password";
 
-                connection.Query(strQuery, new {userId});                
-            }
+                User user = connection.Query<User>(strQuery, new {login, password}).FirstOrDefault();
+
+                return user;
+            }            
         }
-
+               
         public void Modify(User user)
         {                        
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -76,6 +65,17 @@ namespace AccountingSystem.Repository
                                   " (@Login, @Password, @Role)";
 
                 connection.Query(strQuery, user);
+            }
+        }
+        
+        public void DeleteOneById(long userId)
+        {
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                string strQuery = "Delete from users" +
+                                  " where id = @userId";
+
+                connection.Query(strQuery, new {userId});                
             }
         }
         

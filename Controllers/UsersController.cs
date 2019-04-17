@@ -10,12 +10,12 @@ namespace AccountingSystem.Controllers
 {
     public class UsersController : Controller
     {
-        private UserRepository _userRepository { get; set; }
+        private IUserRepository _userRepository { get; set; }
         private Validator _validator { get; set; }
         private const string USERS = "users";
         private const string USER_EXISTS = "Пользователь с таким логином уже существует!";
 
-        public UsersController(UserRepository userRepository, Validator validator)
+        public UsersController(IUserRepository userRepository, Validator validator)
         {
             _userRepository = userRepository;
             _validator = validator;
@@ -39,7 +39,7 @@ namespace AccountingSystem.Controllers
         {
             List<User> users = GetUsersFromSession();
 
-            _userRepository.Delete(id);
+            _userRepository.DeleteOneById(id);
             User user = users.FirstOrDefault(u => u.Id == id);
             users.Remove(user);
             HttpContext.Session.Set(USERS, users);
