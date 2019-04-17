@@ -11,7 +11,8 @@
 }
 
 .inputForm{
-    position: fixed; left: 40%;
+    width:350px;
+    margin-left: 745px;
     margin-top: 2%;
 }
 
@@ -21,7 +22,6 @@ select{
     width: 200px;
     height: 25px;
 }
-
 
 div.select{
     margin-top: 5px;
@@ -44,6 +44,6 @@ input{
 }
 
 .backButton{
-    margin-top: 910px;
+    margin-top: 10px;
     margin-left: 875px;
 }
