@@ -6,7 +6,7 @@ using MySql.Data.MySqlClient;
 
 namespace AccountingSystem.Repository
 {
-    public class StudentRepository
+    public class StudentRepository : IStudentRepository
     {        
         private string ConnectionString { get; set; }
         

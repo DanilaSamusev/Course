@@ -7,9 +7,9 @@ namespace AccountingSystem.Controllers
 {
     public class AuthenticationController : Controller
     {
-        private UserRepository _userRepository { get; set; }
+        private IUserRepository _userRepository { get; set; }
 
-        public AuthenticationController(UserRepository userRepository)
+        public AuthenticationController(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
@@ -26,7 +26,7 @@ namespace AccountingSystem.Controllers
             string login = model.Login;
             int password = model.Password;
 
-            User user = _userRepository.GetOne(login, password);
+            User user = _userRepository.GetOneByLoginAndPassword(login, password);
 
             if (user == null)
             {

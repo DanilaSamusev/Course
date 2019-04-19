@@ -10,14 +10,14 @@ namespace AccountingSystem.Controllers
 {
     public class StudentsController : Controller
     {
-        private StudentRepository _studentRepository { get; set; }
-        private RatingRepository _ratingRepository { get; set; }
+        private IStudentRepository _studentRepository { get; set; }
+        private IRatingRepository _ratingRepository { get; set; }
         private ExamsRatingValidator _examsRatingValidator { get; set; }
         private ScoresRatingValidator _scoresRatingValidator { get; set; }
         private StudentValidator _studentValidator { get; set; }
         private const string STUDENTS = "students";
 
-        public StudentsController(StudentRepository studentRepository, RatingRepository ratingRepository,
+        public StudentsController(IStudentRepository studentRepository, IRatingRepository ratingRepository,
             Validator validator,
             ExamsRatingValidator examsRatingValidator, ScoresRatingValidator scoresRatingValidator,
             StudentValidator studentValidator)
@@ -92,6 +92,9 @@ namespace AccountingSystem.Controllers
         [HttpPost]
         public IActionResult AddStudent(Student student, ExamsRating examsRating, ScoresRating scoresRating)
         {
+            
+            List<Student> students = GetStudentsFromSessionOrDb();
+            
             if (!_examsRatingValidator.IsValid(examsRating) || !_scoresRatingValidator.IsValid(scoresRating) ||
                 !_studentValidator.IsValid(student))
             {
@@ -107,6 +110,8 @@ namespace AccountingSystem.Controllers
             _ratingRepository.AddExamRating(examsRating);
             _ratingRepository.AddScoreRating(scoresRating);
             HttpContext.Session.Set("RatingError", "");
+            students.Add(student);
+            HttpContext.Session.Set(STUDENTS, students);
             
             return ResetSearch();            
         }

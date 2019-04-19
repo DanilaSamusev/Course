@@ -40,9 +40,9 @@ namespace AccountingSystem
 
             services.AddSession();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddSingleton<UserRepository>(ur => new UserRepository(connectionString));
-            services.AddSingleton<StudentRepository>(sr => new StudentRepository(connectionString));
-            services.AddSingleton<RatingRepository>(rr => new RatingRepository(connectionString));
+            services.AddSingleton<IUserRepository, UserRepository>(ur => new UserRepository(connectionString));
+            services.AddSingleton<IStudentRepository, StudentRepository>(sr => new StudentRepository(connectionString));
+            services.AddSingleton<IRatingRepository, RatingRepository>(rr => new RatingRepository(connectionString));
             services.AddSingleton<Validator>();
             services.AddSingleton<ExamsRatingValidator>();
             services.AddSingleton<ScoresRatingValidator>();
