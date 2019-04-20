@@ -20,7 +20,7 @@
 <form class="inputForm" method="post" action="~/Students/AddStudent">
     <h1 class="mainH1">Данные студента</h1>
     <input type="hidden" id="modifyId" name="Id"/>
-    <input required placeholder="Группа" name="GroupNumber"/><br/>
+    <input required pattern="[0-9]{6}" title="Число из 6 цифр" placeholder="Группа" name="GroupNumber"/><br/>
     <input required placeholder="Имя" name="Name"/><br/>
     <input required placeholder="Фамилия" name="Surname"/><br/>
     <input required placeholder="Отчество" name="Patronymic"/><br/>    

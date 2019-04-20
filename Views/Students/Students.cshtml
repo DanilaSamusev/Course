@@ -25,10 +25,10 @@ else{
 
     <form action="~/Students/UpdateStudent">
         <input type="hidden" id="modifyId" name="Id"/>
-        <input placeholder="Группа" name="GroupNumber"/><br/>
-        <input placeholder="Имя" name="Name"/><br/>
-        <input placeholder="Фамилия" name="Surname"/><br/>
-        <input placeholder="Отчество" name="Patronymic"/><br/>
+        <input required pattern="[0-9]{6}" title="Число из 6 цифр" placeholder="Группа" name="GroupNumber"/><br/>
+        <input required placeholder="Имя" name="Name"/><br/>
+        <input required placeholder="Фамилия" name="Surname"/><br/>
+        <input required placeholder="Отчество" name="Patronymic"/><br/>
         <button class="updateButton" type="submit">Принять</button>
     </form>
 </div>

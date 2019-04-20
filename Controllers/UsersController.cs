@@ -23,20 +23,27 @@ namespace AccountingSystem.Controllers
 
         public IActionResult Users()
         {
-            User user = HttpContext.Session.Get<User>("user");
-
-            if (user.Role != "admin")
-            {
-                return View("AccessError");
-            }
+            IActionResult result = CheckUserAccess();
             
+            if (result != null)
+            {
+                return result;
+            }
+                                   
             List<User> users = GetUsersFromSession();
                      
             return View(users);
         }
 
         public IActionResult DeleteUser(long id)
-        {
+        {            
+            IActionResult result = CheckUserAccess();
+            
+            if (result != null)
+            {
+                return result;
+            }
+            
             List<User> users = GetUsersFromSession();
 
             _userRepository.DeleteOneById(id);
@@ -49,6 +56,13 @@ namespace AccountingSystem.Controllers
 
         public IActionResult ModifyUser(User user)
         {
+            IActionResult result = CheckUserAccess();
+            
+            if (result != null)
+            {
+                return result;
+            }
+
             List<User> users = GetUsersFromSession();
 
             if (_validator.UserIsUnique(user ,users))
@@ -73,6 +87,14 @@ namespace AccountingSystem.Controllers
         [HttpGet]
         public IActionResult AddUser()
         {        
+            IActionResult result = CheckUserAccess();
+            
+            if (result != null)
+            {
+                return result;
+            }
+
+            
             HttpContext.Session.Set("userAddError", "");          
             return View();
         }
@@ -80,6 +102,14 @@ namespace AccountingSystem.Controllers
         [HttpPost]
         public IActionResult AddUser(User user)
         {
+            IActionResult result = CheckUserAccess();
+            
+            if (result != null)
+            {
+                return result;
+            }
+
+            
             List<User> users = GetUsersFromSession();
 
             if (_validator.UserIsUnique(user ,users))
@@ -114,6 +144,18 @@ namespace AccountingSystem.Controllers
             }
 
             return users;
+        }
+
+        public IActionResult CheckUserAccess()
+        {
+            User currentUser = HttpContext.Session.Get<User>("user");
+
+            if (currentUser.Role != "admin")
+            {
+                return View("AccessError");
+            }
+
+            return null;
         }
     }
 }
