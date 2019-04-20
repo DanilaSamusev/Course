@@ -7,7 +7,7 @@ namespace AccountingSystem.Services
         public bool IsValid(Student student)
         {
             if (IsValid(student.Name) && IsValid(student.Patronymic) && IsValid(student.Surname) &&
-                IsValid(student.GroupNumber) && GroupNumberIsValid(student.GroupNumber.ToString()))
+                IsValid(student.Group_Number) && GroupNumberIsValid(student.Group_Number.ToString()))
             {
                 return true;
             }

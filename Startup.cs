@@ -1,7 +1,10 @@
 ﻿using System.IO;
+using AccountingSystem.Models;
 using AccountingSystem.Repository;
 using AccountingSystem.Services;
 using Dapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +42,7 @@ namespace AccountingSystem
             string connectionString = Configuration.GetConnectionString("ConnectionString");
 
             services.AddSession();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddFluentValidation();
             services.AddSingleton<IUserRepository, UserRepository>(ur => new UserRepository(connectionString));
             services.AddSingleton<IStudentRepository, StudentRepository>(sr => new StudentRepository(connectionString));
             services.AddSingleton<IRatingRepository, RatingRepository>(rr => new RatingRepository(connectionString));
@@ -47,6 +50,8 @@ namespace AccountingSystem
             services.AddSingleton<ExamsRatingValidator>();
             services.AddSingleton<ScoresRatingValidator>();
             services.AddSingleton<StudentValidator>();
+            services.AddSingleton<AbstractValidator<LoginModel>, LoginModelValidator>();
+            services.AddSingleton<ErrorHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +65,7 @@ namespace AccountingSystem
 
             app.UseSession();
             app.UseStaticFiles();
-            app.UseHttpsRedirection();                      
+            app.UseHttpsRedirection();                                  
             
             app.UseMvc(routes =>
             {

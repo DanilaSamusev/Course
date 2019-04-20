@@ -178,7 +178,7 @@ namespace AccountingSystem.Controllers
                         return ResetSearch();                        
                     }
                     
-                    requiredStudents = students.Where(s => s.GroupNumber == groupNumber).ToList();
+                    requiredStudents = students.Where(s => s.Group_Number == groupNumber).ToList();
                     
                     return SetSearch(requiredStudents);       
                 }
