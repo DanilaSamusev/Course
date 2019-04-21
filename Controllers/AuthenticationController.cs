@@ -4,14 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using AccountingSystem.Extensions;
 using FluentValidation;
 using FluentValidation.Results;
-using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 
 namespace AccountingSystem.Controllers
 {
     public class AuthenticationController : Controller
     {
-        private IUserRepository _userRepository { get; set; }
-        private AbstractValidator<LoginModel> _loginModelValidator { get; set; }
+        private readonly IUserRepository _userRepository;
+        private readonly AbstractValidator<LoginModel> _loginModelValidator;
 
         public AuthenticationController(IUserRepository userRepository,
             AbstractValidator<LoginModel> loginModelValidator)
@@ -33,17 +32,14 @@ namespace AccountingSystem.Controllers
 
             if (!result.IsValid)
             {
-                return View("~/Views/Error403.cshtml");
+                return View("~/Views/Error400.cshtml");
             }
-            
-            string login = model.Login;
-            int password = model.Password;
-
-            User user = _userRepository.GetOneByLoginAndPassword(login, password);
+                        
+            User user = _userRepository.GetOneByLoginAndPassword(model);
 
             if (user == null)
             {
-                model.AuthenticationError = "Пользователь не найден!";
+                model.AuthenticationError = "Логин или пароль введены неверно!";
                 return View(model);
             }
 

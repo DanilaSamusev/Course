@@ -5,22 +5,24 @@ using AccountingSystem.Extensions;
 using AccountingSystem.Repository;
 using System.Linq;
 using AccountingSystem.Services;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace AccountingSystem.Controllers
 {
     public class StudentsController : Controller
     {
-        private IStudentRepository _studentRepository { get; set; }
-        private IRatingRepository _ratingRepository { get; set; }
-        private ExamsRatingValidator _examsRatingValidator { get; set; }
-        private ScoresRatingValidator _scoresRatingValidator { get; set; }
-        private StudentValidator _studentValidator { get; set; }
-        private const string STUDENTS = "students";
+        private readonly IStudentRepository _studentRepository;
+        private readonly IRatingRepository _ratingRepository;
+        private readonly AbstractValidator<ExamsRating> _examsRatingValidator;
+        private readonly AbstractValidator<ScoresRating> _scoresRatingValidator;
+        private readonly AbstractValidator<Student> _studentValidator;
+        private const string Students_ = "students";
 
         public StudentsController(IStudentRepository studentRepository, IRatingRepository ratingRepository,
             Validator validator,
-            ExamsRatingValidator examsRatingValidator, ScoresRatingValidator scoresRatingValidator,
-            StudentValidator studentValidator)
+            AbstractValidator<ExamsRating> examsRatingValidator, AbstractValidator<ScoresRating> scoresRatingValidator,
+            AbstractValidator<Student> studentValidator)
         {
             _studentRepository = studentRepository;
             _ratingRepository = ratingRepository;
@@ -28,29 +30,30 @@ namespace AccountingSystem.Controllers
             _scoresRatingValidator = scoresRatingValidator;
             _studentValidator = studentValidator;
         }
-       
+
         public IActionResult Students()
         {
-            List<Student> students = GetStudentsFromSessionOrDb();
-            List<Student> requiredStudents = HttpContext.Session.Get<List<Student>>("requiredStudents");             
+            List<Student> students = GetStudents();
+            
+            //////
+            List<Student> requiredStudents = HttpContext.Session.Get<List<Student>>("requiredStudents");
             bool searchIsActive = HttpContext.Session.Get<bool>("searchIsActive");
-
+            //////
+            
             if (requiredStudents == null || requiredStudents.Count == 0)
             {
                 if (searchIsActive)
-                {
-                    HttpContext.Session.Set("studentsError", "По вашему запросу ничего не найдено");
+                {                   
                     ResetSearch();
-                    return RedirectToAction("StudentsResult", "Students", new {message = "По вашему запросу ничего не найдено"});                  
-                }               
+                    return RedirectToAction("StudentsResult", "Students",
+                        new {message = "По вашему запросу ничего не найдено"});
+                }
             }
             else
             {
-                FillRating(requiredStudents);
-                requiredStudents.Sort();
-                return View(requiredStudents);
-            }                     
-            
+                students = requiredStudents;               
+            }
+          
             FillRating(students);
             students.Sort();
             return View(students);
@@ -58,29 +61,45 @@ namespace AccountingSystem.Controllers
 
         public IActionResult DeleteStudent(long id)
         {
-            List<Student> students = GetStudentsFromSessionOrDb();
+            if (id < 0)
+            {
+                return View("~/Views/Error400.cshtml");
+            }
 
+            List<Student> students = GetStudents();
             Student student = students.FirstOrDefault(s => s.Id == id);
 
-            _studentRepository.Delete(student.Id);
+            _studentRepository.Delete(student);
             students.Remove(student);
-            HttpContext.Session.Set(STUDENTS, students);
+            HttpContext.Session.Set(Students_, students);
+            ResetSearch();
             
-            return ResetSearch();                     
+            return RedirectToAction("StudentsResult", "Students",
+                new {message = "Студент успешно удалён"});
         }
 
         public IActionResult UpdateStudent(Student student)
         {
-            List<Student> students = GetStudentsFromSessionOrDb();
+            ValidationResult validationResult = _studentValidator.Validate(student);
+
+            if (!validationResult.IsValid)
+            {
+                return View("~/Views/Error400.cshtml"); 
+            }
+            
+            List<Student> students = GetStudents();
 
             Student oldStudent = students.FirstOrDefault(s => s.Id == student.Id);
 
             _studentRepository.Modify(student);
             students.Remove(oldStudent);
             students.Add(student);
-            HttpContext.Session.Set(STUDENTS, students);
+            HttpContext.Session.Set(Students_, students);
+
+            ResetSearch();
             
-            return ResetSearch();            
+            return RedirectToAction("StudentsResult", "Students",
+                new {message = "Студент успешно обновлен"});
         }
 
         [HttpGet]
@@ -92,35 +111,36 @@ namespace AccountingSystem.Controllers
         [HttpPost]
         public IActionResult AddStudent(Student student, ExamsRating examsRating, ScoresRating scoresRating)
         {
-            
-            List<Student> students = GetStudentsFromSessionOrDb();
-            
-            if (!_examsRatingValidator.IsValid(examsRating) || !_scoresRatingValidator.IsValid(scoresRating) ||
-                !_studentValidator.IsValid(student))
+            List<Student> students = GetStudents();
+
+            ValidationResult examValidationResult = _examsRatingValidator.Validate(examsRating);
+            ValidationResult scoreValidationResult = _scoresRatingValidator.Validate(scoresRating);
+            ValidationResult studetnValidationResult = _studentValidator.Validate(student);
+
+            if (!examValidationResult.IsValid || !scoreValidationResult.IsValid || !studetnValidationResult.IsValid)
             {
-                HttpContext.Session.Set("RatingError",
-                    "Некорректый ввод! Обратите внимание, группа должна быть числом из 6 цифр." +
-                    " Имя, фамилия и отчество не должны быть пустыми");
-                return View();
+                return View("~/Views/Error400.cshtml");
             }
 
             student = _studentRepository.Add(student);
             examsRating.StudentId = student.Id;
             scoresRating.StudentId = student.Id;
             _ratingRepository.AddExamRating(examsRating);
-            _ratingRepository.AddScoreRating(scoresRating);
-            HttpContext.Session.Set("RatingError", "");
+            _ratingRepository.AddScoreRating(scoresRating);           
             students.Add(student);
-            HttpContext.Session.Set(STUDENTS, students);
+            HttpContext.Session.Set(Students_, students);
+
+            ResetSearch();
             
-            return ResetSearch();            
+            return RedirectToAction("StudentsResult", "Students",
+                new {message = "Студент успешно добавлен"});
         }
 
         public IActionResult StudentsResult(string message)
         {
             return View(model: message);
         }
-        
+
         private void FillRating(List<Student> students)
         {
             foreach (Student student in students)
@@ -135,20 +155,20 @@ namespace AccountingSystem.Controllers
 
                 debts += examsDebts + scoresDebts;
                 student.Debts = debts;
-            }            
+            }
         }
 
         public IActionResult Search(string option, string value)
-        {            
+        {
             List<Student> requiredStudents;
-            List<Student> students = GetStudentsFromSessionOrDb();
-            
+            List<Student> students = GetStudents();
+
             switch (option)
             {
                 case "sortByDebts":
                 {
                     int debts;
-                    
+
                     try
                     {
                         debts = ParseStringToInt(value);
@@ -156,18 +176,18 @@ namespace AccountingSystem.Controllers
                     catch
                     {
                         HttpContext.Session.Set("error", "Некорректные данные");
-                        return ResetSearch();                        
+                        return ResetSearch();
                     }
-                    
+
                     FillRating(students);
                     requiredStudents = students.Where(s => s.Debts == debts).ToList();
-                    
-                    return SetSearch(requiredStudents);                
+
+                    return SetSearch(requiredStudents);
                 }
                 case "sortByGroup":
                 {
                     int groupNumber;
-                    
+
                     try
                     {
                         groupNumber = ParseStringToInt(value);
@@ -175,22 +195,22 @@ namespace AccountingSystem.Controllers
                     catch
                     {
                         HttpContext.Session.Set("studentsError", "Некорректные данные");
-                        return ResetSearch();                        
+                        return ResetSearch();
                     }
-                    
+
                     requiredStudents = students.Where(s => s.Group_Number == groupNumber).ToList();
-                    
-                    return SetSearch(requiredStudents);       
+
+                    return SetSearch(requiredStudents);
                 }
                 case "sortBySurname":
                 {
                     string surname = value;
                     requiredStudents = students.Where(s => s.Surname == surname).ToList();
-                    
+
                     return SetSearch(requiredStudents);
-                }                                                             
+                }
             }
-            
+
             return RedirectToAction("Students", "Students");
         }
 
@@ -198,29 +218,24 @@ namespace AccountingSystem.Controllers
         {
             HttpContext.Session.Set("requiredStudents", requiredStudents);
             HttpContext.Session.Set("searchIsActive", true);
-            return RedirectToAction("Students", "Students");  
+            return RedirectToAction("Students", "Students");
         }
-        
+
         public IActionResult ResetSearch()
         {
             HttpContext.Session.Set("requiredStudents", new List<Student>());
             HttpContext.Session.Set("searchIsActive", false);
-            return RedirectToAction("Students", "Students");    
+            return RedirectToAction("Students", "Students");
         }
-        
+
         private int ParseStringToInt(string str)
         {
             return int.Parse(str);
-        }        
-        
-        private List<Student> GetStudentsFromSessionOrDb()
-        {
-            List<Student> students = HttpContext.Session.Get<List<Student>>(STUDENTS);
+        }
 
-            if (students == null)
-            {
-                students = _studentRepository.GetAll();
-            }
+        private List<Student> GetStudents()
+        {
+            List<Student> students = HttpContext.Session.Get<List<Student>>(Students_) ?? _studentRepository.GetAll();
 
             return students;
         }

@@ -1,30 +1,13 @@
 using AccountingSystem.Models;
+using FluentValidation;
 
 namespace AccountingSystem.Services
 {
-    public class ExamsRatingValidator
+    public class ExamsRatingValidator : AbstractValidator<ExamsRating>
     {
-        public bool IsValid(ExamsRating examsRating)
+        public ExamsRatingValidator()
         {
-            foreach (var exam in examsRating.rating)
-            {
-                if (!IsValid(exam.Value))
-                {
-                    return false;
-                }
-            }
-            
-            return true;                  
-        }
-
-        private bool IsValid(int exam)
-        {
-            if (exam <= 10 && exam >= 0)
-            {
-                return true;
-            }
-
-            return false;
-        }
+            RuleForEach(exams => exams.rating).Where(rating => rating.Value > 0 && rating.Value < 11);
+        }                
     }
 }

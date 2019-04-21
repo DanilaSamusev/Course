@@ -7,7 +7,7 @@ namespace AccountingSystem.Repository
     {               
         List<User> GetAll();
 
-        User GetOneByLoginAndPassword(string login, int password);        
+        User GetOneByLoginAndPassword(LoginModel model);        
 
         void Modify(User user);
 

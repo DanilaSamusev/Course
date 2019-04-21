@@ -47,11 +47,11 @@ namespace AccountingSystem
             services.AddSingleton<IStudentRepository, StudentRepository>(sr => new StudentRepository(connectionString));
             services.AddSingleton<IRatingRepository, RatingRepository>(rr => new RatingRepository(connectionString));
             services.AddSingleton<Validator>();
-            services.AddSingleton<ExamsRatingValidator>();
-            services.AddSingleton<ScoresRatingValidator>();
-            services.AddSingleton<StudentValidator>();
+            services.AddSingleton<AbstractValidator<ExamsRating>, ExamsRatingValidator>();
+            services.AddSingleton<AbstractValidator<ScoresRating>, ScoresRatingValidator>();
+            services.AddSingleton<AbstractValidator<Student>, StudentValidator>();
             services.AddSingleton<AbstractValidator<LoginModel>, LoginModelValidator>();
-            services.AddSingleton<ErrorHandler>();
+            services.AddSingleton<AbstractValidator<User>, UserValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

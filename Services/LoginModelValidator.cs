@@ -7,7 +7,7 @@ namespace AccountingSystem.Models
         public LoginModelValidator()
         {
             RuleFor(loginModel => loginModel.Login).NotNull();
-            RuleFor(loginModel => loginModel.Password).NotNull();
+            RuleFor(loginModel => loginModel.Password).NotEqual(0);
         }
     }
 }

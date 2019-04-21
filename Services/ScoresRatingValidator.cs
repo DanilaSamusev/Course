@@ -1,33 +1,13 @@
 using AccountingSystem.Models;
+using FluentValidation;
 
 namespace AccountingSystem.Services
 {
-    public class ScoresRatingValidator
-    {        
-        private const string SUCCESS = "зачёт";
-        private const string FAIL = "незачёт";
-        
-        public bool IsValid(ScoresRating scoresRating)
+    public class ScoresRatingValidator : AbstractValidator<ScoresRating>
+    {
+        public ScoresRatingValidator()
         {
-            foreach (var pair in scoresRating.rating)
-            {
-                if (!IsValid(pair.Value))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private bool IsValid(string score)
-        {
-            if (score == SUCCESS || score == FAIL)
-            {
-                return true;
-            }
-
-            return false;
-        }
+            RuleForEach(scores => scores.rating).Where(rating => rating.Value == "зачёт" || rating.Value == "незачёт");
+        }                
     }
 }

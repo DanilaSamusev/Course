@@ -7,7 +7,7 @@ namespace AccountingSystem.Repository
     {
         List<Student> GetAll();
 
-        void Delete(long studentId);
+        void Delete(Student student);
 
         void Modify(Student student);
 

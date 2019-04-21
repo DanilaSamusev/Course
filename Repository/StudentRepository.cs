@@ -27,14 +27,14 @@ namespace AccountingSystem.Repository
             }
         }
 
-        public void Delete(long studentId)
+        public void Delete(Student student)
         {          
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
                 string strQuery = "Delete from students" +
-                                  " where id = @studentId";
+                                  " where id = @Id";
 
-                connection.Query(strQuery, new {studentId});               
+                connection.Query(strQuery, student);               
             }
         }
 
@@ -44,7 +44,7 @@ namespace AccountingSystem.Repository
             {
                 string strQuery =
                     "Update students set" +
-                    " group_number = @GroupNumber," +
+                    " group_number = @Group_Number," +
                     " name = @Name," +
                     " surname = @Surname," +
                     " patronymic = @Patronymic" +
@@ -60,7 +60,7 @@ namespace AccountingSystem.Repository
             {
                 string strQuery = "Insert into students" +
                                   " (group_number, name, surname, patronymic) values" +
-                                  " (@GroupNumber, @Name, @Surname, @Patronymic);" +
+                                  " (@Group_Number, @Name, @Surname, @Patronymic);" +
                                   " Select LAST_INSERT_ID();";
                                              
                 long id = connection.Query<long>(strQuery, student).FirstOrDefault();

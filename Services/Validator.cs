@@ -8,15 +8,10 @@ namespace AccountingSystem.Services
     {             
         public bool UserIsUnique(User user, List<User> users)
         {
-            User dublicate = users.FirstOrDefault(u => u.Login == user.Login);
+            User duplicate = users.FirstOrDefault(u => u.Login == user.Login);
 
-            if (dublicate == null) return true;
-
-            return false;
-
+            return duplicate == null;
         }
-
-        
 
         
     }
