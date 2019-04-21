@@ -1,38 +1,16 @@
 using AccountingSystem.Models;
+using FluentValidation;
 
 namespace AccountingSystem.Services
 {
-    public class StudentValidator
+    public class StudentValidator : AbstractValidator<Student>
     {
-        public bool IsValid(Student student)
+        public StudentValidator()
         {
-            if (IsValid(student.Name) && IsValid(student.Patronymic) && IsValid(student.Surname) &&
-                IsValid(student.GroupNumber) && GroupNumberIsValid(student.GroupNumber.ToString()))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private bool IsValid<T>(T field)
-        {
-            if (field == null)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool GroupNumberIsValid(string groupNumber)
-        {
-            if (groupNumber.Length == 6)
-            {
-                return true;
-            }
-
-            return false;
+            RuleFor(student => student.Name).NotNull();
+            RuleFor(student => student.Surname).NotNull();
+            RuleFor(student => student.Patronymic).NotNull();
+            RuleFor(student => student.Group_Number.ToString().Length > 6);
         }
     }
 }

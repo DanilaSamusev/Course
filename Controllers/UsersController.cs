@@ -5,20 +5,25 @@ using Microsoft.AspNetCore.Mvc;
 using AccountingSystem.Extensions;
 using AccountingSystem.Models;
 using AccountingSystem.Services;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace AccountingSystem.Controllers
 {
     public class UsersController : Controller
     {
-        private IUserRepository _userRepository { get; set; }
-        private Validator _validator { get; set; }
-        private const string USERS = "users";
-        private const string USER_EXISTS = "Пользователь с таким логином уже существует!";
+        private readonly IUserRepository _userRepository;
+        private readonly Validator _validator;
+        private readonly AbstractValidator<User> _userValidator;
+        private const string Users_ = "users";
+        private const string UserExists = "Пользователь с таким логином уже существует!";
 
-        public UsersController(IUserRepository userRepository, Validator validator)
+        public UsersController(IUserRepository userRepository, Validator validator,
+            AbstractValidator<User> userValidator)
         {
             _userRepository = userRepository;
             _validator = validator;
+            _userValidator = userValidator;
         }
 
         public IActionResult Users()
@@ -30,12 +35,12 @@ namespace AccountingSystem.Controllers
                 return result;
             }
                                    
-            List<User> users = GetUsersFromSession();
+            List<User> users = GetUsers();
                      
             return View(users);
         }
 
-        public IActionResult DeleteUser(long id)
+        public IActionResult DeleteUser(long userId)
         {            
             IActionResult result = CheckUserAccess();
             
@@ -43,27 +48,39 @@ namespace AccountingSystem.Controllers
             {
                 return result;
             }
-            
-            List<User> users = GetUsersFromSession();
 
-            _userRepository.DeleteOneById(id);
-            User user = users.FirstOrDefault(u => u.Id == id);
+            if (userId < 0)
+            {
+                return View("~/Views/Error400.cshtml");
+            }
+            
+            List<User> users = GetUsers();
+
+            _userRepository.DeleteOneById(userId);
+            User user = users.FirstOrDefault(u => u.Id == userId);
             users.Remove(user);
-            HttpContext.Session.Set(USERS, users);
+            HttpContext.Session.Set(Users_, users);
 
             return RedirectToAction("UsersResult", "Users", new {message = "Пользователь успешно удалён"});
         }
 
         public IActionResult ModifyUser(User user)
-        {
-            IActionResult result = CheckUserAccess();
+        {           
+            IActionResult actionResult = CheckUserAccess();
             
-            if (result != null)
+            if (actionResult != null)
             {
-                return result;
+                return actionResult;
             }
+            
+            ValidationResult result = _userValidator.Validate(user);
 
-            List<User> users = GetUsersFromSession();
+            if (!result.IsValid)
+            {
+                return View("~/Views/Error400.cshtml");
+            }
+                      
+            List<User> users = GetUsers();
 
             if (_validator.UserIsUnique(user ,users))
             {
@@ -72,12 +89,12 @@ namespace AccountingSystem.Controllers
                 _userRepository.Modify(user);
                 users.Remove(oldUser);
                 users.Add(user);
-                HttpContext.Session.Set(USERS, users);    
+                HttpContext.Session.Set(Users_, users);    
                 HttpContext.Session.Set("userModifyError", "");
             }
             else
             {
-                string modifyError = USER_EXISTS;
+                string modifyError = UserExists;
                 HttpContext.Session.Set("userModifyError", modifyError);
             }
             
@@ -93,7 +110,6 @@ namespace AccountingSystem.Controllers
             {
                 return result;
             }
-
             
             HttpContext.Session.Set("userAddError", "");          
             return View();
@@ -102,26 +118,32 @@ namespace AccountingSystem.Controllers
         [HttpPost]
         public IActionResult AddUser(User user)
         {
-            IActionResult result = CheckUserAccess();
+            IActionResult actionResult = CheckUserAccess();
             
-            if (result != null)
+            if (actionResult != null)
             {
-                return result;
+                return actionResult;
             }
 
+            ValidationResult result = _userValidator.Validate(user);
+
+            if (!result.IsValid)
+            {
+                return View("~/Views/Error400.cshtml");
+            }
             
-            List<User> users = GetUsersFromSession();
+            List<User> users = GetUsers();
 
             if (_validator.UserIsUnique(user ,users))
             {
                 _userRepository.Add(user);
                 users.Add(user);
-                HttpContext.Session.Set(USERS, users);
+                HttpContext.Session.Set(Users_, users);
                 HttpContext.Session.Set("userAddError", "");                  
             }
             else
             {
-                string userAddError = USER_EXISTS;
+                string userAddError = UserExists;
                 HttpContext.Session.Set("userAddError", userAddError);
                 return View();
             }
@@ -134,14 +156,9 @@ namespace AccountingSystem.Controllers
             return View(model: message);
         }
         
-        private List<User> GetUsersFromSession()
+        private List<User> GetUsers()
         {
-            List<User> users = HttpContext.Session.Get<List<User>>(USERS);
-
-            if (users == null)
-            {
-                users = _userRepository.GetAll();
-            }
+            List<User> users = HttpContext.Session.Get<List<User>>(Users_) ?? _userRepository.GetAll();
 
             return users;
         }

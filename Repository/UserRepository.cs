@@ -28,14 +28,14 @@ namespace AccountingSystem.Repository
             }
         }
      
-        public User GetOneByLoginAndPassword(string login, int password)
+        public User GetOneByLoginAndPassword(LoginModel model)
         {
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
                 string strQuery = "Select * from users" +
-                                  " where login = @login and password = @password";
+                                  " where login = @Login and password = @Password";
 
-                User user = connection.Query<User>(strQuery, new {login, password}).FirstOrDefault();
+                User user = connection.Query<User>(strQuery, model).FirstOrDefault();
 
                 return user;
             }            

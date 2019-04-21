@@ -4,20 +4,21 @@ using AccountingSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using AccountingSystem.Extensions;
 using AccountingSystem.Repository;
-using AccountingSystem.Services;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace AccountingSystem.Controllers
 {
     public class RatingController : Controller
     {
-        private StudentRepository _studentRepository { get; set; }
-        private IRatingRepository _ratingRepository { get; set; }
-        private ExamsRatingValidator _examsRatingValidator { get; set; }
-        private ScoresRatingValidator _scoresRatingValidator { get; set; }
-        private const string STUDENTS = "students";
+        private readonly IStudentRepository _studentRepository;
+        private readonly IRatingRepository _ratingRepository;
+        private readonly AbstractValidator<ExamsRating> _examsRatingValidator;
+        private readonly AbstractValidator<ScoresRating> _scoresRatingValidator;
+        private const string Students_ = "students";
         
-        public RatingController(IRatingRepository ratingRepository, StudentRepository studentRepository,
-            ExamsRatingValidator examsValidator, ScoresRatingValidator scoresRatingValidator)
+        public RatingController(IRatingRepository ratingRepository, IStudentRepository studentRepository,
+            AbstractValidator<ExamsRating> examsValidator, AbstractValidator<ScoresRating> scoresRatingValidator)
         {
             _ratingRepository = ratingRepository;
             _studentRepository = studentRepository;
@@ -26,8 +27,13 @@ namespace AccountingSystem.Controllers
         }
         
         public IActionResult Rating(long studentId)
-        {                      
-            List<Student> students = GetStudentsFromSession();
+        {
+            if (studentId < 0)
+            {
+                return View("~/Views/Error400.cshtml");
+            }
+            
+            List<Student> students = GetStudents();
             Student currentStudent = students.FirstOrDefault(s => s.Id == studentId);
             
             HttpContext.Session.Set("currentStudent", currentStudent);
@@ -41,7 +47,7 @@ namespace AccountingSystem.Controllers
 
         [HttpGet]
         public IActionResult ModifyRating(long studentId)
-        {
+        {                                   
             HttpContext.Session.Set("currentStudentId", studentId);
             return View();
         }
@@ -49,16 +55,12 @@ namespace AccountingSystem.Controllers
         [HttpPost]
         public IActionResult ModifyRating(ExamsRating examsRating, ScoresRating scoresRating)
         {
-            if (!_examsRatingValidator.IsValid(examsRating))
-            {
-                HttpContext.Session.Set("error", "Ошибка! Отметка по экзамену должна быть числом, больше 1 и меньше 11");
-                return View("RatingError");
-            }
+            ValidationResult examValidationResult = _examsRatingValidator.Validate(examsRating);
+            ValidationResult scoreValidationResult = _scoresRatingValidator.Validate(scoresRating);
 
-            if (!_scoresRatingValidator.IsValid(scoresRating))
+            if (!examValidationResult.IsValid || !scoreValidationResult.IsValid)
             {
-                HttpContext.Session.Set("error", "Ошибка! В поля зачётов должны вписываться \"зачёт\" или \"незачёт\"");
-                return View("RatingError");
+                return View("~/Views/Error400.cshtml");
             }
             
             _ratingRepository.Modify(examsRating, scoresRating);
@@ -66,18 +68,11 @@ namespace AccountingSystem.Controllers
             return View("Result");          
         }
         
-        private List<Student> GetStudentsFromSession()
+        private List<Student> GetStudents()
         {
-            List<Student> students = HttpContext.Session.Get<List<Student>>(STUDENTS);
-
-            if (students == null)
-            {
-                students = _studentRepository.GetAll();              
-            }
+            List<Student> students = HttpContext.Session.Get<List<Student>>(Students_) ?? _studentRepository.GetAll();
 
             return students;
         }
-    }
-    
-    
+    }     
 }
