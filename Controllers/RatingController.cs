@@ -74,7 +74,5 @@ namespace AccountingSystem.Controllers
 
             return students;
         }
-    }
-    
-    
+    }     
 }

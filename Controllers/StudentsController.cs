@@ -171,12 +171,13 @@ namespace AccountingSystem.Controllers
 
                     try
                     {
-                        debts = ParseStringToInt(value);
+                        debts = int.Parse(value);
                     }
                     catch
-                    {
-                        HttpContext.Session.Set("error", "Некорректные данные");
-                        return ResetSearch();
+                    {                        
+                        ResetSearch();
+                        return RedirectToAction("StudentsResult", "Students",
+                            new {message = "Некорректные данные"});
                     }
 
                     FillRating(students);
@@ -190,12 +191,13 @@ namespace AccountingSystem.Controllers
 
                     try
                     {
-                        groupNumber = ParseStringToInt(value);
+                        groupNumber = int.Parse(value);
                     }
                     catch
                     {
-                        HttpContext.Session.Set("studentsError", "Некорректные данные");
-                        return ResetSearch();
+                        ResetSearch();
+                        return RedirectToAction("StudentsResult", "Students",
+                            new {message = "Некорректные данные"});
                     }
 
                     requiredStudents = students.Where(s => s.Group_Number == groupNumber).ToList();
@@ -221,17 +223,11 @@ namespace AccountingSystem.Controllers
             return RedirectToAction("Students", "Students");
         }
 
-        public IActionResult ResetSearch()
+        private void ResetSearch()
         {
             HttpContext.Session.Set("requiredStudents", new List<Student>());
-            HttpContext.Session.Set("searchIsActive", false);
-            return RedirectToAction("Students", "Students");
-        }
-
-        private int ParseStringToInt(string str)
-        {
-            return int.Parse(str);
-        }
+            HttpContext.Session.Set("searchIsActive", false);            
+        }        
 
         private List<Student> GetStudents()
         {
