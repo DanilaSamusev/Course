@@ -35,6 +35,11 @@ namespace AccountingSystem.Controllers
             
             List<Student> students = GetStudents();
             Student currentStudent = students.FirstOrDefault(s => s.Id == studentId);
+
+            if (currentStudent == null)
+            {
+                return View("~/Views/Error400.cshtml");
+            }
             
             HttpContext.Session.Set("currentStudent", currentStudent);
             IDictionary<string, object> examsRating = _ratingRepository.GetExamsRating(currentStudent.Id);
@@ -64,8 +69,8 @@ namespace AccountingSystem.Controllers
             }
             
             _ratingRepository.Modify(examsRating, scoresRating);
-
-            return View("Result");          
+            
+            return View("~/Views/StudentActionResult.cshtml", "Данные успешно обновлены");          
         }
         
         private List<Student> GetStudents()

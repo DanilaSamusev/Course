@@ -49,7 +49,7 @@ namespace AccountingSystem.Controllers
                 return result;
             }
 
-            if (userId < 0)
+            if (userId <= 0)
             {
                 return View("~/Views/Error400.cshtml");
             }
@@ -61,7 +61,7 @@ namespace AccountingSystem.Controllers
             users.Remove(user);
             HttpContext.Session.Set(Users_, users);
 
-            return RedirectToAction("UsersResult", "Users", new {message = "Пользователь успешно удалён"});
+            return View("UsersActionResult", "Данные успешно удалёны");
         }
 
         public IActionResult ModifyUser(User user)
@@ -98,7 +98,7 @@ namespace AccountingSystem.Controllers
                 HttpContext.Session.Set("userModifyError", modifyError);
             }
             
-            return RedirectToAction("UsersResult", "Users", new {message = "Пользователь успешно обновлён"});
+            return View("UsersActionResult", "Данные успешно обновлены");
         }
 
         [HttpGet]
@@ -148,13 +148,8 @@ namespace AccountingSystem.Controllers
                 return View();
             }
 
-            return RedirectToAction("UsersResult", "Users", new {message = "Пользователь успешно добавлен"});
-        }
-
-        public IActionResult UsersResult(string message)
-        {
-            return View(model: message);
-        }
+            return View("UsersActionResult", "Данные успешно добавлены");
+        }       
         
         private List<User> GetUsers()
         {

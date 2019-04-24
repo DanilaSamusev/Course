@@ -1,4 +1,4 @@
-@model string;
+@model string
 
 <!DOCTYPE html>
 
@@ -10,11 +10,14 @@
 </head>
 <body>
 
-<h1>@Model</h1>
+@if (Model != null)
+{
+    <h1>@Model</h1>
+}
 
 <form action="~/Students/Students">
-    <button class="backButton" type="submit">Принять</button>
+    <button type="submit">Принять</button>
 </form>
 
 </body>
-</html>
+</html>   

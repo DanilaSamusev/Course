@@ -45,8 +45,7 @@ namespace AccountingSystem.Controllers
                 if (searchIsActive)
                 {                   
                     ResetSearch();
-                    return RedirectToAction("StudentsResult", "Students",
-                        new {message = "По вашему запросу ничего не найдено"});
+                    return View("~/Views/StudentActionResult.cshtml", "По вашему запросу ничего не найдено");                    
                 }
             }
             else
@@ -63,7 +62,7 @@ namespace AccountingSystem.Controllers
         {
             if (id < 0)
             {
-                return View("~/Views/Error400.cshtml");
+                return View("~/Views/StudentActionResult.cshtml");
             }
 
             List<Student> students = GetStudents();
@@ -74,8 +73,7 @@ namespace AccountingSystem.Controllers
             HttpContext.Session.Set(Students_, students);
             ResetSearch();
             
-            return RedirectToAction("StudentsResult", "Students",
-                new {message = "Студент успешно удалён"});
+            return View("~/Views/StudentActionResult.cshtml", "Данные успешно удалёны");            
         }
 
         public IActionResult UpdateStudent(Student student)
@@ -98,8 +96,7 @@ namespace AccountingSystem.Controllers
 
             ResetSearch();
             
-            return RedirectToAction("StudentsResult", "Students",
-                new {message = "Студент успешно обновлен"});
+            return View("~/Views/StudentActionResult.cshtml", "Данные успешно обновлены");            
         }
 
         [HttpGet]
@@ -115,9 +112,9 @@ namespace AccountingSystem.Controllers
 
             ValidationResult examValidationResult = _examsRatingValidator.Validate(examsRating);
             ValidationResult scoreValidationResult = _scoresRatingValidator.Validate(scoresRating);
-            ValidationResult studetnValidationResult = _studentValidator.Validate(student);
+            ValidationResult studentValidationResult = _studentValidator.Validate(student);
 
-            if (!examValidationResult.IsValid || !scoreValidationResult.IsValid || !studetnValidationResult.IsValid)
+            if (!examValidationResult.IsValid || !scoreValidationResult.IsValid || !studentValidationResult.IsValid)
             {
                 return View("~/Views/Error400.cshtml");
             }
@@ -132,15 +129,9 @@ namespace AccountingSystem.Controllers
 
             ResetSearch();
             
-            return RedirectToAction("StudentsResult", "Students",
-                new {message = "Студент успешно добавлен"});
+            return View("~/Views/StudentActionResult.cshtml", "Данные успешно добавлены");            
         }
-
-        public IActionResult StudentsResult(string message)
-        {
-            return View(model: message);
-        }
-
+       
         private void FillRating(List<Student> students)
         {
             foreach (Student student in students)
@@ -176,8 +167,7 @@ namespace AccountingSystem.Controllers
                     catch
                     {                        
                         ResetSearch();
-                        return RedirectToAction("StudentsResult", "Students",
-                            new {message = "Некорректные данные"});
+                        return View("~/Views/StudentActionResult.cshtml", "Некорректные данные");            
                     }
 
                     FillRating(students);
@@ -196,8 +186,7 @@ namespace AccountingSystem.Controllers
                     catch
                     {
                         ResetSearch();
-                        return RedirectToAction("StudentsResult", "Students",
-                            new {message = "Некорректные данные"});
+                        return View("~/Views/StudentActionResult.cshtml", "Некорректные данные");
                     }
 
                     requiredStudents = students.Where(s => s.Group_Number == groupNumber).ToList();
@@ -220,13 +209,16 @@ namespace AccountingSystem.Controllers
         {
             HttpContext.Session.Set("requiredStudents", requiredStudents);
             HttpContext.Session.Set("searchIsActive", true);
+            
             return RedirectToAction("Students", "Students");
         }
 
-        private void ResetSearch()
+        public IActionResult ResetSearch()
         {
             HttpContext.Session.Set("requiredStudents", new List<Student>());
-            HttpContext.Session.Set("searchIsActive", false);            
+            HttpContext.Session.Set("searchIsActive", false);
+
+            return RedirectToAction("Students", "Students");
         }        
 
         private List<Student> GetStudents()
