@@ -17,28 +17,32 @@ namespace AccountingSystem.Controllers
         private readonly AbstractValidator<ExamsRating> _examsRatingValidator;
         private readonly AbstractValidator<ScoresRating> _scoresRatingValidator;
         private readonly AbstractValidator<Student> _studentValidator;
+        private readonly StudentComparerByDebts _comparerByDebts;
+        private readonly StudentComparerByName _comparerByName;
+        private readonly StudentComparerByGroupNumber _comparerByGroup;
         private const string Students_ = "students";
 
         public StudentsController(IStudentRepository studentRepository, IRatingRepository ratingRepository,
             Validator validator,
             AbstractValidator<ExamsRating> examsRatingValidator, AbstractValidator<ScoresRating> scoresRatingValidator,
-            AbstractValidator<Student> studentValidator)
+            AbstractValidator<Student> studentValidator, StudentComparerByDebts comparerByDebts,
+            StudentComparerByName comparerByName, StudentComparerByGroupNumber comparerByGroupNumber)
         {
             _studentRepository = studentRepository;
             _ratingRepository = ratingRepository;
             _examsRatingValidator = examsRatingValidator;
             _scoresRatingValidator = scoresRatingValidator;
             _studentValidator = studentValidator;
+            _comparerByDebts = comparerByDebts;
+            _comparerByGroup = comparerByGroupNumber;
+            _comparerByName = comparerByName;
         }
 
         public IActionResult Students()
         {
-            List<Student> students = GetStudents();
-            
-            //////
+            List<Student> students = GetStudents();                        
             List<Student> requiredStudents = HttpContext.Session.Get<List<Student>>("requiredStudents");
-            bool searchIsActive = HttpContext.Session.Get<bool>("searchIsActive");
-            //////
+            bool searchIsActive = HttpContext.Session.Get<bool>("searchIsActive");            
             
             if (requiredStudents == null || requiredStudents.Count == 0)
             {
@@ -54,7 +58,6 @@ namespace AccountingSystem.Controllers
             }
           
             FillRating(students);
-            students.Sort();
             return View(students);
         }
 
@@ -149,6 +152,35 @@ namespace AccountingSystem.Controllers
             }
         }
 
+        public IActionResult SortStudents(int param)
+        {
+
+            List<Student> students = GetStudents();
+            FillRating(students);
+            
+            switch (param)
+            {
+                case 1:
+                {
+                    students.Sort(_comparerByDebts);
+                    break;
+                }
+                case 2:
+                {
+                    students.Sort(_comparerByGroup);
+                    break;
+                }
+                case 3:
+                {
+                    students.Sort(_comparerByName);
+                    break;
+                }
+            }
+            
+            HttpContext.Session.Set(Students_, students);
+            return RedirectToAction("Students", "Students");
+        }
+        
         public IActionResult Search(string option, string value)
         {
             List<Student> requiredStudents;

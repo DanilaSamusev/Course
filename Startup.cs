@@ -52,6 +52,9 @@ namespace AccountingSystem
             services.AddSingleton<AbstractValidator<Student>, StudentValidator>();
             services.AddSingleton<AbstractValidator<LoginModel>, LoginModelValidator>();
             services.AddSingleton<AbstractValidator<User>, UserValidator>();
+            services.AddSingleton<StudentComparerByDebts>();
+            services.AddSingleton<StudentComparerByName>();
+            services.AddSingleton<StudentComparerByGroupNumber>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

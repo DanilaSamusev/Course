@@ -43,7 +43,7 @@ create table if not exists `student_rating_base`.scores
   id                  bigint auto_increment primary key,
   student_id          bigint       null,
   history             varchar(256) null,
-  `political _science` varchar(256) null,
+  political_science varchar(256) null,
   PE                  varchar(256) null,
   foreign_language    varchar(256) null,
   chemistry           varchar(256) null,
