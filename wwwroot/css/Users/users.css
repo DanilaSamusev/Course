@@ -14,7 +14,7 @@ table{
 #modifyWindow{
     width: 300px;
     height: 350px;
-    margin-left: 1300px;
+    margin-left: 70%;
     display: none;
     background: #fff;
     position: fixed;
@@ -25,7 +25,7 @@ table{
 #deleteWindow{
     width: 300px;
     height: 250px;
-    margin-left: 1300px;
+    margin-left: 70%;
     display: none;
     background: #fff;
     position: fixed;
@@ -65,11 +65,11 @@ input, .roleInput {
 }
 
 .addUserButton{
-    margin-left: 240px;
+    margin-left: 16%;
 }
 
 .backButton{
-    margin-left: 680px;
+    margin-left: 32%;
 }
 
 form{

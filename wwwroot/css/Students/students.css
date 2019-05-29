@@ -22,13 +22,13 @@
 #modifyWindow{
     width: 300px;
     height: 400px;
-    margin-left: 1200px;
+    margin-left: 55%;
 }
 
 #deleteWindow{
     width: 300px;
     height: 200px;
-    margin-left: 1200px;
+    margin-left: 55%;
 }
 
 input{
@@ -66,4 +66,8 @@ input{
 
 select{
     margin-bottom: 10px;
+}
+
+.sortByDebtsButton, .sortByGroupButton, .sortByNameButton{
+    margin-top: 1%;
 }

@@ -1,5 +1,5 @@
 .studentImage {
-    margin-left: 530px;
+    margin-left: 22%;
 }
 
 .userImage {
@@ -8,5 +8,12 @@
 
 .userButton, .studentButton {
     display: inline;
-    margin-left: 550px;
+}
+
+.userButton {
+    margin-left: 40.5%;
+}
+
+.studentButton {
+    margin-left: 23.5%;
 }
